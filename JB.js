@@ -11,21 +11,8 @@ if(typeof JB == 'undefined'){
 }
 
 String.prototype.convToUniEsc=function(){
-//escapuje unicode znaky pomocí hex pro JSON
-	return JBconvToUniEsc(this.valueOf());
-	
-/*	var x,y;
-	var a=this.valueOf();
-	var o='';
-	for(var i=0;i<a.length;i++){
-		y=a.charCodeAt(i);
-		if(y>127){
-			x=y.toString(16);
-			if(x.length!=4)	x="0000".substr(0,4-x.length)+x;
-			o+='\\u'+x;
-		}else o+=a.charAt(i);
-	}
-	return o;*/
+	//escapuje unicode znaky pomocí hex pro JSON
+	return JBconvToUniEsc(this.valueOf());	
 }
 
 function JBconvToUniEsc(a,rem){
@@ -47,27 +34,41 @@ function JBconvToUniEsc(a,rem){
 if(JB.x==undefined){
 	JB.x=new function(){
 		this.BR = function(p){
-			//BR vytvoří HTML element <br> s parametry v p
-			//spec parametr p.cnt je počet vložených BR, pokud není zadán tak je generován jen jeden
-			//JB.x.BR({ob:xx})    přidá <br> na konec elementu xx
-			//JB.x.BR({ob:xx,cnt:3})    přidá 3x <br> na konec elementu xx
-			//p objekt viz.fn cel
-			// !!tato funkce nic nevrací !!
+			/* vytvoří HTML element <br> s parametry v p
+			- p objekt viz.fn cel
+			- p.cnt = (int) spec parametr počet vložených BR, pokud není zadán tak je generován jen jeden
+			!!tato funkce nic nevrací !!
+			
+			př:
+				JB.x.BR({ob:xx})    přidá <br> na konec elementu xx
+				JB.x.BR({ob:xx,cnt:3})    přidá 3x <br> na konec elementu xx			
+			*/
 			if(p==undefined)p=new Object;
 			if(p.cnt==undefined)p.cnt=1;
 			var x=p.cnt;//ochrana proti změně p.cnt
 			for(var a=0;a<x;a++)this.cel('br',p);
 		}
 		this.tx = function(txt,p){
-			//vytvoří a vrátí span element podle objektu p viz fn cel
-			//txt nahrazuje p.tx
+			/*vytvoří a vrátí span element
+			- p objekt viz.fn cel
+			- txt = (string) nahrazuje p.tx
+			
+			vrací vytvořený DOM element
+			*/
 			if(p==undefined)p=new Object;
 			p.tx=txt;
 			return this.cel('span',p);
 		}
 		this.a = function(url,target,popis,alt,p){
-			//vytvoří a vrátí link <a> element podle objektu p viz fn cel
-			//url a target je přeneseno přímo na element takže p.ad.href , p.ad.href title s alt  nemají účinek
+			/*vytvoří a vrátí link <a> element
+			- p objekt viz.fn cel
+			- url		= (string)nahratuje p.ad.href
+			- target	= (string)nahrazuje p.ad.target
+			- popis		= (string)nahrazuje p.tx - innerHTML linku
+			- alt		= (string)nahrazuje p.ad.alt a p.ad.title
+
+			vrací vytvořený DOM element
+			*/
 			var a=this.cel('a',p);
 			a.href=url;
 			a.target=target;
@@ -77,8 +78,14 @@ if(JB.x==undefined){
 			return a;
 		}
 		this.opt = function(select,txt,val,alt,p){
-			//vytvoří option v selectu
-			//p jako u hlavní funkce cel
+			/*vytvoří option v selectu
+			- p objekt viz.fn cel
+			- select	= (dom element)select DOM element
+			- txt		= (string) text option elementu
+			- val		= (variant) hodnota option elementu - value
+			
+			vrací vytvořený DOM element
+			*/
 			if(p==undefined)p={};
 			p.ob=select;
 			var a=this.cel('option',p);
@@ -90,43 +97,41 @@ if(JB.x==undefined){
 		}
 		this.cel = function(typ,p){ //createlement
 			/*
-			typ = musí být zadán, je to typ vytvořeného elementu jako u document.createElement (např 'div','span' atp.
-			v 'p' mohou být proměnné jako
-				.id = id objectu
-				.csN= className objektu
-				.tx	= innerHTML
-				.tp = atribut 'type' např u INPUTu
-				.nm = name např pro iput
-				.val = value např pro INPUT
+			typ = (string) musí být zadán, je to typ vytvořeného elementu jako u document.createElement (např 'div','span' atp.
+				odpovídá skutečnému tagu elementu
+			p objektu může mít proměnné
+				.id		=(string)	id objectu
+				.csN	=(string)	className objektu
+				.tx		=(string)	innerHTML
+				.tp		=(string)	atribut 'type' např u INPUTu
+				.nm		=(string)	name např pro iput
+				.val	=(variant)	value např pro INPUT
+				.tit	=(string)	atribut TITLE
+				.pop	=(string)	zajistí nastavení atributů ALT a TITLE elementu
+				.doc	=(objekt)	pokud je zadán musí obsahovat object document z daného okna pro který má být vytvořen nový element
+									pokud zadán není, je použit aktuální document
+				.ob		=(objekt)	pokud je zadán, tak je použit tento object pro vytvoření elementu, třeba document object z jiného okna
+				.app	=(boolean)	pokud je zadáno 'true' tak je vytvořený element připojen k objektu ob (buď document nebo objekt v 'ob' pomocí appendchild
+									jinak je vrácen jen nový objekt který není nikde přiřazen, default je true
+				.ad		=(objekt)	properties navíc, které se pokusí registrovat např.
+									{onclick:funkce,onchange:funkce2} se pokusí přiřadit tyto "onclick" atp na vytvořený objekt
+									lze také použít ovlivnění stylu př. ad={onclick:funkce,style:{width:'100px',backgroundColor:'silver'}} následující je zkratka k obj style
+				.style	=(objekt)	objekt style html elementu
+									Tento je dostupný z .ad.style kde je použito rekurzivní nastavování objektu, nepoužije se jako přiřazení reference
+									př.  .style.display=display_objekt_reference
+										.ad.style = style, bude foláno rekurzivně nastavování properties za properties včetně display
 				
-				.tit = atribut TITLE
-				.pop = zajistí nastavení atributů ALT a TITLE elementu
-				
-				.doc = pokud je zadán musí obsahovat object document z daného okna pro který má být vytvořen nový element
-					pokud zadán není, je použit aktuální document
-				.ob	= pokud je zadán, tak je použit tento object pro vytvoření elementu, třeba document object z jiného okna
-				.app = pokud je zadáno 'true' tak je vytvořený element připojen k objektu ob (buď document nebo objekt v 'ob' pomocí appendchild
-					jinak je vrácen jen nový objekt který není nikde přiřazen, default je true
-					
-				.ad = objekt properties navíc, které se pokusí registrovat např.
-						{onclick:funkce,onchange:funkce2} se pokusí přiřadit tyto "onclick" atp na vytvořený objekt
-						lze také použít ovlivnění stylu př. ad={onclick:funkce,style:{width:'100px',backgroundColor:'silver'}} následující je zkratka k obj style
-				.style = objekt style html elementu
-					Tento je dostupný z .ad.style kde je použito rekurzivní nastavování objektu, nepoužije se jako přiřazení reference
-						př.  .style.display=display_objekt_reference
-							 .ad.style = style, bude foláno rekurzivně nastavování properties za properties včetně display
-				
-				.href = pokud je zadán tak se element chová jako link, tzn.onlick otevře nové okno s adresou v této proměnné
-				.target = jako u linku, pokud nebude target nalezen nebo nebude zadán, bude použito nové okno
+				.href	=(string)	pokud je zadán tak se element chová jako link, tzn.onlick otevře nové okno s adresou v této proměnné
+				.target	=(string)	jako u linku, pokud nebude target nalezen nebo nebude zadán, bude použito nové okno
 			
-			   vrací odkaz na element, pokud není zadán doc, tak není nikde přiřazen a musí se použít appenchild
-			   příklady:
-				JB.x.cel('div') vytvoří div v aktuálním documentu
+			vrací odkaz na element, pokud není zadán doc, tak není nikde přiřazen a musí se použít appenchild
+				příklady:
+					JB.x.cel('div') vytvoří div v aktuálním documentu
 				
-				win = window.open('','test')
-				ndoc = window.document
-				el=JB.x.cel('div',{doc:ndoc,ob:ndoc}) vytvoří div v novém okně
-				JB.x.cel('a',{doc.ndoc,ob:el,tx:'linktest'}) vytvoří link v předchozím DIVu
+					win = window.open('','test')
+					ndoc = window.document
+					el=JB.x.cel('div',{doc:ndoc,ob:ndoc}) vytvoří div v novém okně
+					JB.x.cel('a',{doc.ndoc,ob:el,tx:'linktest'}) vytvoří link v předchozím DIVu
 			*/
 			var ob=document;
 			var doc=document;
@@ -208,6 +213,10 @@ if(JB.x==undefined){
 			}
 		}
 		this.el=function(x){
+			/*vrací DOM element podle x
+				x	=(string) text ID elementu
+					=(objekt) tak je vrácen
+			*/
 			if(typeof x == 'string'){
 				return document.getElementById(x);
 			}if(typeof x == typeof {}){
@@ -218,7 +227,7 @@ if(JB.x==undefined){
 		var sdiak='ÁÂÄĄáâäąČčĆćÇçCcĎĐďđÉÉĚËEEĘéěëeeęGgGgGgGgHhHhÍÎíîIiIiIiIiIiJjKkĹĺLlŁłĹĽĺľŇŃNnňńÓÖÔŐOOoóöőôoŘřŔŕRrŠšŚśSsŞşŢţŤťTtUuUuUuŮůŰűÚÜúüűUuWwÝYYyýyŽžŹźŻżß';
 		var bdiak='AAAAaaaaCcCcCcCcDDddEEEEEEEeeeeeeGgGgGgGgHhHhIIiiIiIiIiIiIiJjKkLlLlLlLLllNNNnnnOOOOOOooooooRrRrRrSsSsSsSsTtTtTtUuUuUuUuUuUUuuuUuWwYYYyyyZzZzZzs';
 		this.str_removedia= function(txt){
-		//odstraní diakritiku z textu
+			//odstraní diakritiku z textu
 			var tx,a,b,c,p
 			txt=String(txt);
 			tx="";
@@ -236,17 +245,18 @@ if(JB.x==undefined){
 
 		this.GetIMEIChkSum = function(x){
 		var a,c,o,ch,kont;
-		// vrátí kontrolní číslici, tj číslo které má být na 15.pozici
+		// vrátí kontrolní číslici IMEI, tj číslo které má být na 15.pozici
 			x=String(x);
 			o=x;
 			if(!/^\d{14}\d?_?$/.test(o)){return false};
 			o="";
-		// kont = kontrolní číslo
-		// každé sudé číslo se znásobí a zamění jeho výsledkem v řetězci
-		// Příklad 49015 42032 3751 + kontrolní vypočítáme
-		// IMEI 				4	9	 	0 	1 	5 	4 	2 	0 	3 	2 	3 	7 		5 	1 	?
-		// Double every other 	4	18 		0 	2 	5 	8 	2 	0 	3 	4 	3 	14 		5 	2 	?
-		// Sum digits 			4 + (1+8) +	0 + 2 + 5 + 8 + 2 + 0 + 3 + 4 + 3 + (1+4)+ 	5 + 2 +	? = 52 + ?
+			/* kont = kontrolní číslo
+			každé sudé číslo se znásobí a zamění jeho výsledkem v řetězci
+			Příklad 49015 42032 3751 + kontrolní vypočítáme
+				IMEI 				4	9	 	0 	1 	5 	4 	2 	0 	3 	2 	3 	7 		5 	1 	?
+				Double every other 	4	18 		0 	2 	5 	8 	2 	0 	3 	4 	3 	14 		5 	2 	?
+				Sum digits 			4 + (1+8) +	0 + 2 + 5 + 8 + 2 + 0 + 3 + 4 + 3 + (1+4)+ 	5 + 2 +	? = 52 + ?
+			*/
 			for(a=0; a<14; a++){
 				ch=x.charAt(a);
 				c=(a+1)/2;
@@ -264,7 +274,7 @@ if(JB.x==undefined){
 			return ((Math.floor(x/10)+1)*10)-x; //zjisti nejbližší desítku nahoru a odečti x, tím se získá 15.číslo
 		}		
 		this.byte_to_text = function(co,zaok){
-		// opraví "co" číslo na kB,MB,GB a zaokrouhlí na "zaok"
+		// opraví číslo v "co" na textové vyjádření kB,MB,GB,TB a zaokrouhlí na "zaok" desetin
 		var x,a
 		var conv_byte_tx = ["","kB","MB","GB","TB"];
 			x=0
@@ -278,11 +288,12 @@ if(JB.x==undefined){
 			return (co+" "+conv_byte_tx[x]);
 		}		
 		this.zaokrouhli = function(x,zaokr,poz){
-		// x=číslo k zaokrouhlení
-		// zaokr=na jaké číslo se má zaokroulit
-		// poz=kolik dec.míst
+		/*	x=číslo k zaokrouhlení
+			zaokr=na jaké číslo se má zaokroulit
+			poz=kolik desetinných míst
 
-		//př.: zaokrouhlování na 0,05 se zadá zaokr=5 a poz=2
+			př.: zaokrouhlování na 0,05 se fn(x,5,2)
+		*/
 		var b,c
 			b=Math.pow(10,poz);//získej čím se má násobit
 			c=zaokr/b/2;// číslo pro korekci zaokrouhlení
@@ -292,9 +303,24 @@ if(JB.x==undefined){
 			return x;
 		}		
 		this.convertArrToObj=function(ar){
-			//konvertuje pole které obsahuje na indexu nula hlavičku(názvy fieldů z recordset) na pole objektů dat
-			// tzn [["filed1","field2"],[111,222],[333,444]] = [{"field1":111,"field2":222},{"field1":333,"field2":444}]
-			//nultý index se bere jako popis sloupců takže length musí být min 2
+			/* konvertuje pole na asociované pole
+			- ar	=(array) obsahuje
+					na indexu nula musí být hlavička(názvy fieldů např z recordset)
+			
+			př. pole
+			[
+				["filed1","field2"],
+				[111,222],
+				[333,444]
+			]
+			bude převedeno na
+			[
+				{"field1":111,"field2":222},
+				{"field1":333,"field2":444}
+			]
+			
+			protože nultý index se bere jako popis sloupců, musí mít length min 2
+			*/
 			if(!JB.is.array(ar))return [];
 			if(ar.length<2) return [];
 			var a=[];
@@ -312,6 +338,7 @@ if(JB.x==undefined){
 }
 
 if(JB.forms==undefined){
+// funkce pro práci s formuláři
 	JB.forms= new function(){
 		var ent=[
 			['&','&amp;',null,null],//musí být první
@@ -356,21 +383,21 @@ if(JB.forms==undefined){
 		}
 		this.serializeObjByObj =function(co,cim,jak,table,wh,uptx){
 			/*funkce pro generování sql dotazu
-				jak		=	'upd' bude generován update řetězec
-							'ins' bude generován insert řetězec
-				table	=	(string) jméno tabulky pro kterou bude řetězec připraven
-				wh		=	(string) string který bude přidaný do where při update u insert je ignorováno
-				uptx	=	(string) je přidán to části update, u inser je ignorován
-				co		=	objekt který bude převeden na řetězec
-				cim		=	(objekt)
-							kde	
-								jméno property	= string název 'fieldu v SQL/propertie v objektu "co"'
-								hodnota property= string
+				jak		=	(string)	'upd' - bude generován update řetězec
+							(string)	'ins' - bude generován insert řetězec
+				table	=	(string) 	jméno tabulky pro kterou bude řetězec připraven
+				wh		=	(string default '') bude přidaný do where při update u insert je ignorováno
+				uptx	=	(string default '') je přidán to části update, u inser je ignorován
+				co		=	(objekt) který bude převeden na řetězec
+				cim		=	(objekt) určuje jak naložit s fieldem
+							kde	{jméno property:hodnota property,jméno property:hodnota property}
+								jméno property	= (string) název 'fieldu v SQL/propertie v objektu "co"'
+								hodnota property= (string)
 											pokud bude	'key'	tak prvek pole bude použit do WHERE, platí jen pro ins, jinak bude při update ignorováno
 																pokud bude key u více properties tak budou spojeny ve WHERE pomocí AND
 														'tx'	tak bude prvek použit jako hodnota ale vynutí se vložení jako text
 														''		tak nebude použit
-														pokud nebude nalezen tak bude prvek použit jako hodnota pro insert/update
+														pokud nebude filed nalezen v tomto objektu tak bude prvek použit jako hodnota pro insert/update
 														
 				příklad:
 					serializeObjByObj(
