@@ -3,7 +3,7 @@ JB tools
 (c)2008
 www.dvetezar.cz
 
-v 2.0.2.1
+v 2.0.3.2
 */
 
 if(typeof JB == 'undefined'){
@@ -1857,9 +1857,9 @@ JB.help = new function(){
 				var tin=tinyMCE.get('popis');
 				if(tin==undefined){
 					if(x!=undefined){
-						el.html(x);
+						el[0].value=x;
 					}else{
-						return el.html();
+						return el[0].value;
 					}
 				}else{
 					if(x!=undefined){
