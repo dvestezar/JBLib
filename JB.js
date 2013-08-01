@@ -1,4 +1,4 @@
-/*
+ï»¿/*
 JB tools
 (c)2008
 www.dvetezar.cz
@@ -11,7 +11,7 @@ if(typeof JB == 'undefined'){
 }
 
 String.prototype.convToUniEsc=function(){
-//escapuje unicode znaky pomocí hex pro JSON
+//escapuje unicode znaky pomocÃ­ hex pro JSON
 	return JBconvToUniEsc(this.valueOf());
 	
 /*	var x,y;
@@ -29,7 +29,7 @@ String.prototype.convToUniEsc=function(){
 }
 
 function JBconvToUniEsc(a,rem){
-	//rem true nebo false, true pokud chceme escapnout uvozovky a zpìtné lomítko default je false
+	//rem true nebo false, true pokud chceme escapnout uvozovky a zpÄ›tnÃ© lomÃ­tko default je false
 	var x,y;
 	var o='';
 	if(rem!=true)rem=false;
@@ -47,27 +47,27 @@ function JBconvToUniEsc(a,rem){
 if(JB.x==undefined){
 	JB.x=new function(){
 		this.BR = function(p){
-			//BR vytvoøí HTML element <br> s parametry v p
-			//spec parametr p.cnt je poèet vloenıch BR, pokud není zadán tak je generován jen jeden
-			//JB.x.BR({ob:xx})    pøidá <br> na konec elementu xx
-			//JB.x.BR({ob:xx,cnt:3})    pøidá 3x <br> na konec elementu xx
+			//BR vytvoÅ™Ã­ HTML element <br> s parametry v p
+			//spec parametr p.cnt je poÄet vloÅ¾enÃ½ch BR, pokud nenÃ­ zadÃ¡n tak je generovÃ¡n jen jeden
+			//JB.x.BR({ob:xx})    pÅ™idÃ¡ <br> na konec elementu xx
+			//JB.x.BR({ob:xx,cnt:3})    pÅ™idÃ¡ 3x <br> na konec elementu xx
 			//p objekt viz.fn cel
-			// !!tato funkce nic nevrací !!
+			// !!tato funkce nic nevracÃ­ !!
 			if(p==undefined)p=new Object;
 			if(p.cnt==undefined)p.cnt=1;
-			var x=p.cnt;//ochrana proti zmìnì p.cnt
+			var x=p.cnt;//ochrana proti zmÄ›nÄ› p.cnt
 			for(var a=0;a<x;a++)this.cel('br',p);
 		}
 		this.tx = function(txt,p){
-			//vytvoøí a vrátí span element podle objektu p viz fn cel
+			//vytvoÅ™Ã­ a vrÃ¡tÃ­ span element podle objektu p viz fn cel
 			//txt nahrazuje p.tx
 			if(p==undefined)p=new Object;
 			p.tx=txt;
 			return this.cel('span',p);
 		}
 		this.a = function(url,target,popis,alt,p){
-			//vytvoøí a vrátí link <a> element podle objektu p viz fn cel
-			//url a target je pøeneseno pøímo na element take p.ad.href , p.ad.href title s alt  nemají úèinek
+			//vytvoÅ™Ã­ a vrÃ¡tÃ­ link <a> element podle objektu p viz fn cel
+			//url a target je pÅ™eneseno pÅ™Ã­mo na element takÅ¾e p.ad.href , p.ad.href title s alt  nemajÃ­ ÃºÄinek
 			var a=this.cel('a',p);
 			a.href=url;
 			a.target=target;
@@ -77,8 +77,8 @@ if(JB.x==undefined){
 			return a;
 		}
 		this.opt = function(select,txt,val,alt,p){
-			//vytvoøí option v selectu
-			//p jako u hlavní funkce cel
+			//vytvoÅ™Ã­ option v selectu
+			//p jako u hlavnÃ­ funkce cel
 			if(p==undefined)p={};
 			p.ob=select;
 			var a=this.cel('option',p);
@@ -90,43 +90,43 @@ if(JB.x==undefined){
 		}
 		this.cel = function(typ,p){ //createlement
 			/*
-			typ = musí bıt zadán, je to typ vytvoøeného elementu jako u document.createElement (napø 'div','span' atp.
-			v 'p' mohou bıt promìnné jako
+			typ = musÃ­ bÃ½t zadÃ¡n, je to typ vytvoÅ™enÃ©ho elementu jako u document.createElement (napÅ™ 'div','span' atp.
+			v 'p' mohou bÃ½t promÄ›nnÃ© jako
 				.id = id objectu
 				.csN= className objektu
 				.tx	= innerHTML
-				.tp = atribut 'type' napø u INPUTu
-				.nm = name napø pro iput
-				.val = value napø pro INPUT
+				.tp = atribut 'type' napÅ™ u INPUTu
+				.nm = name napÅ™ pro iput
+				.val = value napÅ™ pro INPUT
 				
 				.tit = atribut TITLE
-				.pop = zajistí nastavení atributù ALT a TITLE elementu
+				.pop = zajistÃ­ nastavenÃ­ atributÅ¯ ALT a TITLE elementu
 				
-				.doc = pokud je zadán musí obsahovat object document z daného okna pro kterı má bıt vytvoøen novı element
-					pokud zadán není, je pouit aktuální document
-				.ob	= pokud je zadán, tak je pouit tento object pro vytvoøení elementu, tøeba document object z jiného okna
-				.app = pokud je zadáno 'true' tak je vytvoøenı element pøipojen k objektu ob (buï document nebo objekt v 'ob' pomocí appendchild
-					jinak je vrácen jen novı objekt kterı není nikde pøiøazen, default je true
+				.doc = pokud je zadÃ¡n musÃ­ obsahovat object document z danÃ©ho okna pro kterÃ½ mÃ¡ bÃ½t vytvoÅ™en novÃ½ element
+					pokud zadÃ¡n nenÃ­, je pouÅ¾it aktuÃ¡lnÃ­ document
+				.ob	= pokud je zadÃ¡n, tak je pouÅ¾it tento object pro vytvoÅ™enÃ­ elementu, tÅ™eba document object z jinÃ©ho okna
+				.app = pokud je zadÃ¡no 'true' tak je vytvoÅ™enÃ½ element pÅ™ipojen k objektu ob (buÄ document nebo objekt v 'ob' pomocÃ­ appendchild
+					jinak je vrÃ¡cen jen novÃ½ objekt kterÃ½ nenÃ­ nikde pÅ™iÅ™azen, default je true
 					
-				.ad = objekt properties navíc, které se pokusí registrovat napø.
-						{onclick:funkce,onchange:funkce2} se pokusí pøiøadit tyto "onclick" atp na vytvoøenı objekt
-						lze také pouít ovlivnìní stylu pø. ad={onclick:funkce,style:{width:'100px',backgroundColor:'silver'}} následující je zkratka k obj style
+				.ad = objekt properties navÃ­c, kterÃ© se pokusÃ­ registrovat napÅ™.
+						{onclick:funkce,onchange:funkce2} se pokusÃ­ pÅ™iÅ™adit tyto "onclick" atp na vytvoÅ™enÃ½ objekt
+						lze takÃ© pouÅ¾Ã­t ovlivnÄ›nÃ­ stylu pÅ™. ad={onclick:funkce,style:{width:'100px',backgroundColor:'silver'}} nÃ¡sledujÃ­cÃ­ je zkratka k obj style
 				.style = objekt style html elementu
-					Tento je dostupnı z .ad.style kde je pouito rekurzivní nastavování objektu, nepouije se jako pøiøazení reference
-						pø.  .style.display=display_objekt_reference
-							 .ad.style = style, bude foláno rekurzivnì nastavování properties za properties vèetnì display
+					Tento je dostupnÃ½ z .ad.style kde je pouÅ¾ito rekurzivnÃ­ nastavovÃ¡nÃ­ objektu, nepouÅ¾ije se jako pÅ™iÅ™azenÃ­ reference
+						pÅ™.  .style.display=display_objekt_reference
+							 .ad.style = style, bude folÃ¡no rekurzivnÄ› nastavovÃ¡nÃ­ properties za properties vÄetnÄ› display
 				
-				.href = pokud je zadán tak se element chová jako link, tzn.onlick otevøe nové okno s adresou v této promìnné
-				.target = jako u linku, pokud nebude target nalezen nebo nebude zadán, bude pouito nové okno
+				.href = pokud je zadÃ¡n tak se element chovÃ¡ jako link, tzn.onlick otevÅ™e novÃ© okno s adresou v tÃ©to promÄ›nnÃ©
+				.target = jako u linku, pokud nebude target nalezen nebo nebude zadÃ¡n, bude pouÅ¾ito novÃ© okno
 			
-			   vrací odkaz na element, pokud není zadán doc, tak není nikde pøiøazen a musí se pouít appenchild
-			   pøíklady:
-				JB.x.cel('div') vytvoøí div v aktuálním documentu
+			   vracÃ­ odkaz na element, pokud nenÃ­ zadÃ¡n doc, tak nenÃ­ nikde pÅ™iÅ™azen a musÃ­ se pouÅ¾Ã­t appenchild
+			   pÅ™Ã­klady:
+				JB.x.cel('div') vytvoÅ™Ã­ div v aktuÃ¡lnÃ­m documentu
 				
 				win = window.open('','test')
 				ndoc = window.document
-				el=JB.x.cel('div',{doc:ndoc,ob:ndoc}) vytvoøí div v novém oknì
-				JB.x.cel('a',{doc.ndoc,ob:el,tx:'linktest'}) vytvoøí link v pøedchozím DIVu
+				el=JB.x.cel('div',{doc:ndoc,ob:ndoc}) vytvoÅ™Ã­ div v novÃ©m oknÄ›
+				JB.x.cel('a',{doc.ndoc,ob:el,tx:'linktest'}) vytvoÅ™Ã­ link v pÅ™edchozÃ­m DIVu
 			*/
 			var ob=document;
 			var doc=document;
@@ -167,7 +167,7 @@ if(JB.x==undefined){
 					el.title=p.pop;
 					el.alt=p.pop;
 				}
-				//vytvoø link
+				//vytvoÅ™ link
 				if(!JB.is.und(p.href)){
 					if(JB.is.und(p.target)){
 						p.target='_blank';
@@ -176,7 +176,7 @@ if(JB.x==undefined){
 					a.appendChild(el);
 					el=a;
 				}
-				//append, el je tento vytvoøenı objekt nebo link a v nìm vytvoøenı objekt
+				//append, el je tento vytvoÅ™enÃ½ objekt nebo link a v nÄ›m vytvoÅ™enÃ½ objekt
 				var app=true;
 				if(!JB.is.und(p.app))app=p.app;
 				if(app){
@@ -195,7 +195,7 @@ if(JB.x==undefined){
 					try{
 						if(typeof cim[key]=='object'){
 							if(/(style)|(display)/gi.test(key)){
-								//jen pro style je mono nastavovat rekurzivnì, ost.objekty budou brány jako pøiøazení reference
+								//jen pro style je moÅ¾no nastavovat rekurzivnÄ›, ost.objekty budou brÃ¡ny jako pÅ™iÅ™azenÃ­ reference
 								set_prop(el[key],cim[key]);
 							}else{
 								el[key]=cim[key];
@@ -215,10 +215,10 @@ if(JB.x==undefined){
 			}else return undefined;
 		}
 
-		var sdiak='ÁÂÄ¥áâä¹ÈèÆæÇçCcÏĞïğÉÉÌËEEÊéìëeeêGgGgGgGgHhHhÍÎíîIiIiIiIiIiJjKkÅåLl£³Å¼å¾ÒÑNnòñÓÖÔÕOOoóöõôoØøÀàRrŠšŒœSsªºŞşTtUuUuUuÙùÛûÚÜúüûUuWwİYYyıyŸ¯¿ß';
+		var sdiak='ÃÃ‚Ã„Ä„Ã¡Ã¢Ã¤Ä…ÄŒÄÄ†Ä‡Ã‡Ã§CcÄÄÄÄ‘Ã‰Ã‰ÄšÃ‹EEÄ˜Ã©Ä›Ã«eeÄ™GgGgGgGgHhHhÃÃÃ­Ã®IiIiIiIiIiJjKkÄ¹ÄºLlÅÅ‚Ä¹Ä½ÄºÄ¾Å‡ÅƒNnÅˆÅ„Ã“Ã–Ã”ÅOOoÃ³Ã¶Å‘Ã´oÅ˜Å™Å”Å•RrÅ Å¡ÅšÅ›SsÅÅŸÅ¢Å£Å¤Å¥TtUuUuUuÅ®Å¯Å°Å±ÃšÃœÃºÃ¼Å±UuWwÃYYyÃ½yÅ½Å¾Å¹ÅºÅ»Å¼ÃŸ';
 		var bdiak='AAAAaaaaCcCcCcCcDDddEEEEEEEeeeeeeGgGgGgGgHhHhIIiiIiIiIiIiIiJjKkLlLlLlLLllNNNnnnOOOOOOooooooRrRrRrSsSsSsSsTtTtTtUuUuUuUuUuUUuuuUuWwYYYyyyZzZzZzs';
 		this.str_removedia= function(txt){
-		//odstraní diakritiku z textu
+		//odstranÃ­ diakritiku z textu
 			var tx,a,b,c,p
 			txt=String(txt);
 			tx="";
@@ -236,14 +236,14 @@ if(JB.x==undefined){
 
 		this.GetIMEIChkSum = function(x){
 		var a,c,o,ch,kont;
-		// vrátí kontrolní èíslici, tj èíslo které má bıt na 15.pozici
+		// vrÃ¡tÃ­ kontrolnÃ­ ÄÃ­slici, tj ÄÃ­slo kterÃ© mÃ¡ bÃ½t na 15.pozici
 			x=String(x);
 			o=x;
 			if(!/^\d{14}\d?_?$/.test(o)){return false};
 			o="";
-		// kont = kontrolní èíslo
-		// kadé sudé èíslo se znásobí a zamìní jeho vısledkem v øetìzci
-		// Pøíklad 49015 42032 3751 + kontrolní vypoèítáme
+		// kont = kontrolnÃ­ ÄÃ­slo
+		// kaÅ¾dÃ© sudÃ© ÄÃ­slo se znÃ¡sobÃ­ a zamÄ›nÃ­ jeho vÃ½sledkem v Å™etÄ›zci
+		// PÅ™Ã­klad 49015 42032 3751 + kontrolnÃ­ vypoÄÃ­tÃ¡me
 		// IMEI 				4	9	 	0 	1 	5 	4 	2 	0 	3 	2 	3 	7 		5 	1 	?
 		// Double every other 	4	18 		0 	2 	5 	8 	2 	0 	3 	4 	3 	14 		5 	2 	?
 		// Sum digits 			4 + (1+8) +	0 + 2 + 5 + 8 + 2 + 0 + 3 + 4 + 3 + (1+4)+ 	5 + 2 +	? = 52 + ?
@@ -251,7 +251,7 @@ if(JB.x==undefined){
 				ch=x.charAt(a);
 				c=(a+1)/2;
 				if(Math.floor(c)==(c)){
-					//sudá * 2 - ale v indexování je to lichá
+					//sudÃ¡ * 2 - ale v indexovÃ¡nÃ­ je to lichÃ¡
 					ch=String(ch*2);
 				}
 				o += ch;
@@ -261,10 +261,10 @@ if(JB.x==undefined){
 			for(a=0; a<c; a++){
 				x += (o.charAt(a)*1)
 			}
-			return ((Math.floor(x/10)+1)*10)-x; //zjisti nejbliší desítku nahoru a odeèti x, tím se získá 15.èíslo
+			return ((Math.floor(x/10)+1)*10)-x; //zjisti nejbliÅ¾Å¡Ã­ desÃ­tku nahoru a odeÄti x, tÃ­m se zÃ­skÃ¡ 15.ÄÃ­slo
 		}		
 		this.byte_to_text = function(co,zaok){
-		// opraví "co" èíslo na kB,MB,GB a zaokrouhlí na "zaok"
+		// opravÃ­ "co" ÄÃ­slo na kB,MB,GB a zaokrouhlÃ­ na "zaok"
 		var x,a
 		var conv_byte_tx = ["","kB","MB","GB","TB"];
 			x=0
@@ -278,23 +278,23 @@ if(JB.x==undefined){
 			return (co+" "+conv_byte_tx[x]);
 		}		
 		this.zaokrouhli = function(x,zaokr,poz){
-		// x=èíslo k zaokrouhlení
-		// zaokr=na jaké èíslo se má zaokroulit
-		// poz=kolik dec.míst
+		// x=ÄÃ­slo k zaokrouhlenÃ­
+		// zaokr=na jakÃ© ÄÃ­slo se mÃ¡ zaokroulit
+		// poz=kolik dec.mÃ­st
 
-		//pø.: zaokrouhlování na 0,05 se zadá zaokr=5 a poz=2
+		//pÅ™.: zaokrouhlovÃ¡nÃ­ na 0,05 se zadÃ¡ zaokr=5 a poz=2
 		var b,c
-			b=Math.pow(10,poz);//získej èím se má násobit
-			c=zaokr/b/2;// èíslo pro korekci zaokrouhlení
-			x=x+c;//pøièti korekci
+			b=Math.pow(10,poz);//zÃ­skej ÄÃ­m se mÃ¡ nÃ¡sobit
+			c=zaokr/b/2;// ÄÃ­slo pro korekci zaokrouhlenÃ­
+			x=x+c;//pÅ™iÄti korekci
 			c=Math.floor(x*b/zaokr);//zaokrouhli
-			x=c*zaokr/b;// vstup je saokrouhlen na poadovanou hodnotu
+			x=c*zaokr/b;// vstup je saokrouhlen na poÅ¾adovanou hodnotu
 			return x;
 		}		
 		this.convertArrToObj=function(ar){
-			//konvertuje pole které obsahuje na indexu nula hlavièku(názvy fieldù z recordset) na pole objektù dat
+			//konvertuje pole kterÃ© obsahuje na indexu nula hlaviÄku(nÃ¡zvy fieldÅ¯ z recordset) na pole objektÅ¯ dat
 			// tzn [["filed1","field2"],[111,222],[333,444]] = [{"field1":111,"field2":222},{"field1":333,"field2":444}]
-			//nultı index se bere jako popis sloupcù take length musí bıt min 2
+			//nultÃ½ index se bere jako popis sloupcÅ¯ takÅ¾e length musÃ­ bÃ½t min 2
 			if(!JB.is.array(ar))return [];
 			if(ar.length<2) return [];
 			var a=[];
@@ -314,17 +314,17 @@ if(JB.x==undefined){
 if(JB.forms==undefined){
 	JB.forms= new function(){
 		var ent=[
-			['&','&amp;',null,null],//musí bıt první
+			['&','&amp;',null,null],//musÃ­ bÃ½t prvnÃ­
 			['\'','&#39;',null,null],
 			['"','&quot;',null,null],
 			['<','&lt;',null,null],
 			['>','&gt;',null,null],
-			['©','&copy;',null,null],
+			['Â©','&copy;',null,null],
 			[/\n/gi,'<br />',/<br\s*\/>/gi,'\n'],
 			[/\r/gi,'',null,,null]
 		];
 		this.tx_to_html_base=function(tx){
-			//pøevede citlivé znaky na HTML entity, viz tabulka vıše
+			//pÅ™evede citlivÃ© znaky na HTML entity, viz tabulka vÃ½Å¡e
 			tx=String(tx);
 			var x;
 			for(var a=0;a<ent.length;a++){
@@ -338,7 +338,7 @@ if(JB.forms==undefined){
 			return tx;
 		}
 		this.html_to_tx_base=function(tx){
-			//obrácená funkce k pøedchozí
+			//obrÃ¡cenÃ¡ funkce k pÅ™edchozÃ­
 			tx=String(tx);
 			var x,o;
 			for(var a=ent.length-1;a>=0;a--){
@@ -355,24 +355,24 @@ if(JB.forms==undefined){
 			return tx;
 		}
 		this.serializeObjByObj =function(co,cim,jak,table,wh,uptx){
-			/*funkce pro generování sql dotazu
-				jak		=	'upd' bude generován update øetìzec
-							'ins' bude generován insert øetìzec
-				table	=	(string) jméno tabulky pro kterou bude øetìzec pøipraven
-				wh		=	(string) string kterı bude pøidanı do where pøi update u insert je ignorováno
-				uptx	=	(string) je pøidán to èásti update, u inser je ignorován
-				co		=	objekt kterı bude pøeveden na øetìzec
+			/*funkce pro generovÃ¡nÃ­ sql dotazu
+				jak		=	'upd' bude generovÃ¡n update Å™etÄ›zec
+							'ins' bude generovÃ¡n insert Å™etÄ›zec
+				table	=	(string) jmÃ©no tabulky pro kterou bude Å™etÄ›zec pÅ™ipraven
+				wh		=	(string) string kterÃ½ bude pÅ™idanÃ½ do where pÅ™i update u insert je ignorovÃ¡no
+				uptx	=	(string) je pÅ™idÃ¡n to ÄÃ¡sti update, u inser je ignorovÃ¡n
+				co		=	objekt kterÃ½ bude pÅ™eveden na Å™etÄ›zec
 				cim		=	(objekt)
 							kde	
-								jméno property	= string název 'fieldu v SQL/propertie v objektu "co"'
+								jmÃ©no property	= string nÃ¡zev 'fieldu v SQL/propertie v objektu "co"'
 								hodnota property= string
-											pokud bude	'key'	tak prvek pole bude pouit do WHERE, platí jen pro ins, jinak bude pøi update ignorováno
-																pokud bude key u více properties tak budou spojeny ve WHERE pomocí AND
-														'tx'	tak bude prvek pouit jako hodnota ale vynutí se vloení jako text
-														''		tak nebude pouit
-														pokud nebude nalezen tak bude prvek pouit jako hodnota pro insert/update
+											pokud bude	'key'	tak prvek pole bude pouÅ¾it do WHERE, platÃ­ jen pro ins, jinak bude pÅ™i update ignorovÃ¡no
+																pokud bude key u vÃ­ce properties tak budou spojeny ve WHERE pomocÃ­ AND
+														'tx'	tak bude prvek pouÅ¾it jako hodnota ale vynutÃ­ se vloÅ¾enÃ­ jako text
+														''		tak nebude pouÅ¾it
+														pokud nebude nalezen tak bude prvek pouÅ¾it jako hodnota pro insert/update
 														
-				pøíklad:
+				pÅ™Ã­klad:
 					serializeObjByObj(
 						{
 							id:10,
@@ -391,11 +391,11 @@ if(JB.forms==undefined){
 						'test_tbl',
 						'and fld in (5,6,7)'
 					)
-					vrátí string "insert into test_tbl(id,tx,val,val2,val3) values(10,'neco',10,'15','16')"
-					v pøípadì upd "update test_tbl set tx='neco',val=10,val2='15',val3='66' where id=10 and fld in (5,6,7)"
+					vrÃ¡tÃ­ string "insert into test_tbl(id,tx,val,val2,val3) values(10,'neco',10,'15','16')"
+					v pÅ™Ã­padÄ› upd "update test_tbl set tx='neco',val=10,val2='15',val3='66' where id=10 and fld in (5,6,7)"
 					
 					
-					hodnoty properties jsou testovány na string, pokud je hodnota string tak je tak pouita do øetìzce
+					hodnoty properties jsou testovÃ¡ny na string, pokud je hodnota string tak je tak pouÅ¾ita do Å™etÄ›zce
 			*/
 			if(cim==undefined)cim={};
 			if(cim==null)cim={};
@@ -447,9 +447,9 @@ if(JB.forms==undefined){
 			return b;
 		}
 		this.convJquerySerializedArrayToObj=function (x){
-			//konvertuje JQuery získané pole z formuláøe pomocí serializeArray do objektu
-			//pø vıstupu {jméno_obj:[hodnota1,hodnota2],jméno_obj2:['jen jedna hodnota']}
-			// textová pole apod jednohodnotová pole dávají pole s jedním èlenem
+			//konvertuje JQuery zÃ­skanÃ© pole z formulÃ¡Å™e pomocÃ­ serializeArray do objektu
+			//pÅ™ vÃ½stupu {jmÃ©no_obj:[hodnota1,hodnota2],jmÃ©no_obj2:['jen jedna hodnota']}
+			// textovÃ¡ pole apod jednohodnotovÃ¡ pole dÃ¡vajÃ­ pole s jednÃ­m Älenem
 			var o=new Object;
 			var b,c;
 			for(var a=0;a<x.length;a++){
@@ -472,8 +472,8 @@ if(JB.forms==undefined){
 			return form_names;
 		}
 		function serialize_form(form,prefix){
-			//pokud je zadán prefix, tak je vıèet omezen na jména která zaèínají tímto prefixem
-			//		prefix je z názvu odstranìn tzn jméno "val_neco" a prefix "val_" bude jméno "neco"
+			//pokud je zadÃ¡n prefix, tak je vÃ½Äet omezen na jmÃ©na kterÃ¡ zaÄÃ­najÃ­ tÃ­mto prefixem
+			//		prefix je z nÃ¡zvu odstranÄ›n tzn jmÃ©no "val_neco" a prefix "val_" bude jmÃ©no "neco"
 			if(JB.is.und(prefix))prefix='';
 			try{
 				prefix=eval('/^'+String(prefix)+'/');
@@ -505,11 +505,11 @@ if(JB.forms==undefined){
 			return o;
 		}
 		function get_vals_from_arr_form(form_names,timto,prefix){
-			// timto= false je pouito k získání jQuery
-			// 			true tak je vyuio funkce val tohoto objektu
-			//prefix = omezuje vıbìr inputù jen na ty které ním zaèínají, nemusí bıt zadán, potom jsou brány všechny
-			//			platí jen pøi timto=true
-			//			prefix je z názvu odstranìn tzn jméno "val_neco" a prefix "val_" bude jméno "neco"
+			// timto= false je pouÅ¾ito k zÃ­skÃ¡nÃ­ jQuery
+			// 			true tak je vyuÅ¾io funkce val tohoto objektu
+			//prefix = omezuje vÃ½bÄ›r inputÅ¯ jen na ty kterÃ© nÃ­m zaÄÃ­najÃ­, nemusÃ­ bÃ½t zadÃ¡n, potom jsou brÃ¡ny vÅ¡echny
+			//			platÃ­ jen pÅ™i timto=true
+			//			prefix je z nÃ¡zvu odstranÄ›n tzn jmÃ©no "val_neco" a prefix "val_" bude jmÃ©no "neco"
 			var o=new Object;
 			for(var a=0;a<form_names.length;a++){
 				fr=document.forms[form_names[a]];
@@ -526,52 +526,52 @@ if(JB.forms==undefined){
 			return o;		
 		}
 		this.getVals=function(form_names){
-			//vyuívá jQuery !!!
-			//generuje objekt kde v root jsou podobjekty hodnot podle jména formuláøe a jména inputu
+			//vyuÅ¾Ã­vÃ¡ jQuery !!!
+			//generuje objekt kde v root jsou podobjekty hodnot podle jmÃ©na formulÃ¡Å™e a jmÃ©na inputu
 			//obj root : obj form_name  : obj input : array [ value,value1]
 			//           obj form2_name : obj input : array [value]
-			//form_names je pole textovıch hodnot jmen formuláøù nebo jeden textovı název formuláøe
-			// jedná se o name formu nejde o "id" elementu
+			//form_names je pole textovÃ½ch hodnot jmen formulÃ¡Å™Å¯ nebo jeden textovÃ½ nÃ¡zev formulÃ¡Å™e
+			// jednÃ¡ se o name formu nejde o "id" elementu
 			var fr,x;
 			form_names=opr_forms_from_str(form_names);	
 			return get_vals_from_arr_form(form_names,false);
 		}
 		this.Vals=function(form_names,prefix){
-			//jako pøedchozí, ale pro získání hodnot nevyuívá jQuery ale fn'val' tohoto objektu, bere vpotaz vypnutı parent fieldset
-			//jQuery ète hodnoty z inputù které jsou ve vypnutém fieldsetu, co je neádoucí
-			//prefix = omezuje vıbìr inputù jen na ty které ním zaèínají, nemusí bıt zadán, potom jsou brány všechny
-			//	prefix je z názvu odstranìn tzn jméno "val_neco" a prefix "val_" bude jméno "neco"
+			//jako pÅ™edchozÃ­, ale pro zÃ­skÃ¡nÃ­ hodnot nevyuÅ¾Ã­vÃ¡ jQuery ale fn'val' tohoto objektu, bere vpotaz vypnutÃ½ parent fieldset
+			//jQuery Äte hodnoty z inputÅ¯ kterÃ© jsou ve vypnutÃ©m fieldsetu, coÅ¾ je neÅ¾Ã¡doucÃ­
+			//prefix = omezuje vÃ½bÄ›r inputÅ¯ jen na ty kterÃ© nÃ­m zaÄÃ­najÃ­, nemusÃ­ bÃ½t zadÃ¡n, potom jsou brÃ¡ny vÅ¡echny
+			//	prefix je z nÃ¡zvu odstranÄ›n tzn jmÃ©no "val_neco" a prefix "val_" bude jmÃ©no "neco"
 			var fr,x;
 			form_names=opr_forms_from_str(form_names);	
 			return get_vals_from_arr_form(form_names,true,prefix);
 		}
 		this.val=function(s_el,ob){ //ob = objekt {val:'',form:''}
 			/*
-			 Nepouívá jQuery
-			 nastaví nebo pøeète hodnotu elementu formuláøe
-			 funkèní pro select, multiselect, checkboxy, radiobutony, text, textarea, file, password, hidden, button, reset, submit
+			 NepouÅ¾Ã­vÃ¡ jQuery
+			 nastavÃ­ nebo pÅ™eÄte hodnotu elementu formulÃ¡Å™e
+			 funkÄnÃ­ pro select, multiselect, checkboxy, radiobutony, text, textarea, file, password, hidden, button, reset, submit
 			
-			 pokud není zadáno ob.val tak ète hodnotu, pokud je tak se pokusí nastavit hodnotu
-			 ob.val je pole hodnot øetìzcù nebo èísel popø kombinace - nebo mùe bıt øetìzec nebo èíslo
-			 ob.form(øetìzec) je název nebo id formuláøe, pokud ob.form není zadáno s_el(string) musí obsahovat ID elementu ne name
-			 s_el je name nebo ID form elementu pro ètení nebo nastavení
-			 !! pokud je s_el pøímı odkaz na objekt, bude ignorován form a pouije se pøímo tento odkaz na objekt
-			 !! pokud funkci voláme k získání hodnoty vrací vdy pole s hodnotami, pokud se jedná o radiobuton nebo input text èi textarea, má pole jen jeden prvek
-			 pokud nastavujeme hodnotu, je na vstupu pole hodnot nebo pole s jednou hodnotou, kde pole s jednou hodnotou mùe bıt nahrazeno øetìzcem nebo èíslem
+			 pokud nenÃ­ zadÃ¡no ob.val tak Äte hodnotu, pokud je tak se pokusÃ­ nastavit hodnotu
+			 ob.val je pole hodnot Å™etÄ›zcÅ¯ nebo ÄÃ­sel popÅ™ kombinace - nebo mÅ¯Å¾e bÃ½t Å™etÄ›zec nebo ÄÃ­slo
+			 ob.form(Å™etÄ›zec) je nÃ¡zev nebo id formulÃ¡Å™e, pokud ob.form nenÃ­ zadÃ¡no s_el(string) musÃ­ obsahovat ID elementu ne name
+			 s_el je name nebo ID form elementu pro ÄtenÃ­ nebo nastavenÃ­
+			 !! pokud je s_el pÅ™Ã­mÃ½ odkaz na objekt, bude ignorovÃ¡n form a pouÅ¾ije se pÅ™Ã­mo tento odkaz na objekt
+			 !! pokud funkci volÃ¡me k zÃ­skÃ¡nÃ­ hodnoty vracÃ­ vÅ¾dy pole s hodnotami, pokud se jednÃ¡ o radiobuton nebo input text Äi textarea, mÃ¡ pole jen jeden prvek
+			 pokud nastavujeme hodnotu, je na vstupu pole hodnot nebo pole s jednou hodnotou, kde pole s jednou hodnotou mÅ¯Å¾e bÃ½t nahrazeno Å™etÄ›zcem nebo ÄÃ­slem
 			 
-			 pøíklad
-				ètení
-					JB.forms.val('slect_name',{form:'form_name_or_id'}) vrátí pole vybranıch hodnot v selectu nebo pole s jednou hodnotou u radio, text atp.
-				zápis
-					JB.forms.val('slect_name',{form:'form_name_or_id',val:15}) nastaví v selectu øádek s hodnotou 15
-					JB.forms.val('slect_name',{form:'form_name_or_id',val:[15,'other_val']}) nastaví v multiselectu øádeky s hodnotami 15 a 'other_val'
-						pokud je toto pouito pro select bez nastaveného multiselectu, je vybrán øádek s val[0] tj. s hodnotou 15
-						toto platí i pro radio
+			 pÅ™Ã­klad
+				ÄtenÃ­
+					JB.forms.val('slect_name',{form:'form_name_or_id'}) vrÃ¡tÃ­ pole vybranÃ½ch hodnot v selectu nebo pole s jednou hodnotou u radio, text atp.
+				zÃ¡pis
+					JB.forms.val('slect_name',{form:'form_name_or_id',val:15}) nastavÃ­ v selectu Å™Ã¡dek s hodnotou 15
+					JB.forms.val('slect_name',{form:'form_name_or_id',val:[15,'other_val']}) nastavÃ­ v multiselectu Å™Ã¡deky s hodnotami 15 a 'other_val'
+						pokud je toto pouÅ¾ito pro select bez nastavenÃ©ho multiselectu, je vybrÃ¡n Å™Ã¡dek s val[0] tj. s hodnotou 15
+						toto platÃ­ i pro radio
 			 
-				pøímı odkaz
-					ètení
+				pÅ™Ã­mÃ½ odkaz
+					ÄtenÃ­
 						JB.forms.val(objekt);
-					zápis
+					zÃ¡pis
 						JB.forms.val(objekt,{val:15});
 			 
 			 */
@@ -593,26 +593,26 @@ if(JB.forms==undefined){
 			}else{
 				el=s_el;
 			}
-			//el obsahuje poadovanı form input objekt
+			//el obsahuje poÅ¾adovanÃ½ form input objekt
 			var s=el.tagName;
 			//test na disabled
 			if(el.disabled==true)return undefined;
-			//otestuj disabled na pøíp.fieldsety (mìlo by bıt poøešeno prohlíeèem,ale ...)
+			//otestuj disabled na pÅ™Ã­p.fieldsety (mÄ›lo by bÃ½t poÅ™eÅ¡eno prohlÃ­Å¾eÄem,ale ...)
 			x=el;
 			if(typeof x.length!='undefined')if(el.length>0)x=el[0];
 			a=true;
-			//zjisti jestli parent fieldset není disabled
+			//zjisti jestli parent fieldset nenÃ­ disabled
 			while((typeof x.parentNode!='undefined')&& a){
 				if(x.parentNode!=null){
 					if(/form/gi.test(x.tagName)){
 						a=false;
 					}else if(/fieldset/gi.test(x.tagName)){
-						if(x.disabled)return undefined;// nadøazenı fieldset input vypíná
+						if(x.disabled)return undefined;// nadÅ™azenÃ½ fieldset input vypÃ­nÃ¡
 					}
 					x=x.parentNode;
 				}else{
 					x={};
-					x.parentNode=undefined;//ošetøení proti null, pokud vrátí x.parentNode=null by pøi dalším kole while vygenerovalo chybu
+					x.parentNode=undefined;//oÅ¡etÅ™enÃ­ proti null, pokud vrÃ¡tÃ­ x.parentNode=null by pÅ™i dalÅ¡Ã­m kole while vygenerovalo chybu
 				}
 			}
 			var el_arr=false;
@@ -621,16 +621,16 @@ if(JB.forms==undefined){
 					if(el.length>0)
 						if(typeof el[0].tagName != 'undefined'){
 							s=el[0].tagName;
-							el_arr=true; //el je pole, tak se jedná o checkbox nebo radio
+							el_arr=true; //el je pole, tak se jednÃ¡ o checkbox nebo radio
 						}
 			var g=(typeof ob.val == 'undefined'); // true pokud get value
 			if(!g)if(/(string)|(number)/gi.test(typeof ob.val)){
-				//pokud je na vstupu øetìzec, je pøeveden na jednoprvkové pole
+				//pokud je na vstupu Å™etÄ›zec, je pÅ™eveden na jednoprvkovÃ© pole
 				x=[];
 				x.push(ob.val);
 				ob.val=x;
 			}
-			//pøeveï val hodnoty na stringy
+			//pÅ™eveÄ val hodnoty na stringy
 			if(!g)
 				for(a=0;a<ob.val.length;a++)
 					ob.val[a]=String(ob.val[a]);
@@ -642,12 +642,12 @@ if(JB.forms==undefined){
 						if(g){
 							if(el.options[a].selected)x.push(el.options[a].value);
 						}else{
-							el.options[a].selected=(ob.val.indexOf(el.options[a].value)>-1);//toto zajistí promazání nevybranıch a vybere poadované
+							el.options[a].selected=(ob.val.indexOf(el.options[a].value)>-1);//toto zajistÃ­ promazÃ¡nÃ­ nevybranÃ½ch a vybere poÅ¾adovanÃ©
 						}
 					}
 					return g?x:undefined;
 				}else{
-					//pokud dropdown box nebo není multiple povolen
+					//pokud dropdown box nebo nenÃ­ multiple povolen
 					if(g){
 						x=[];
 						z=el.options[el.selectedIndex].value;
@@ -660,7 +660,7 @@ if(JB.forms==undefined){
 					}
 				}
 			}else if(/input/gi.test(s)){
-				//el obsahuje pole checkboxù nebo radiobutonù
+				//el obsahuje pole checkboxÅ¯ nebo radiobutonÅ¯
 				var t;
 				if(el_arr)
 					t=el[0].type;
@@ -668,7 +668,7 @@ if(JB.forms==undefined){
 					t=el.type;
 				if(/(checkbox)|(radio)/gi.test(t)){
 					if(/radio/gi.test(t)){
-						//radio umoòuje jen jednu volbu
+						//radio umoÅ¾Åˆuje jen jednu volbu
 						if(g){
 							for(a=0;a<el.length;a++)
 								if(el[a].checked){
@@ -724,7 +724,7 @@ if(JB.forms==undefined){
 			return undefined;
 			
 			function indexByVal(SelOps,val){
-				//vybere index z options selectu podle její hodnoty value
+				//vybere index z options selectu podle jejÃ­ hodnoty value
 				for(var a=0;a<SelOps.length;a++)
 					if(SelOps[a].value==val)return a;
 				return -1;
@@ -732,22 +732,22 @@ if(JB.forms==undefined){
 		}
 		this.setSelOpt = function(el,pole,jak){
 			/*
-			nastaví select hodnotami z pole v "pole"
-			pokud jak='new' tak budou všechny options vymazány a vloeny nové
-					jak='add' tak pøidány jen nové tzn.kontroluje hodnoty ve VALUE
-					jak='dbl' tak budou nové hodnoty pøidán s moností e se bude VALUE hodnota opakovat ve více options
-				jak default = 'new' - nemusí bıt zadáno
+			nastavÃ­ select hodnotami z pole v "pole"
+			pokud jak='new' tak budou vÅ¡echny options vymazÃ¡ny a vloÅ¾eny novÃ©
+					jak='add' tak pÅ™idÃ¡ny jen novÃ© tzn.kontroluje hodnoty ve VALUE
+					jak='dbl' tak budou novÃ© hodnoty pÅ™idÃ¡n s moÅ¾nostÃ­ Å¾e se bude VALUE hodnota opakovat ve vÃ­ce options
+				jak default = 'new' - nemusÃ­ bÃ½t zadÃ¡no
 				
 				pole = pole options tzn [[text,value,selected],[text2,value2,selected2] ....]  (selected=true/false)
-						pole mùe také opsahovat jen jeden prvek [text,value] platí ale jen pokud chceme pracovat s jedním option
-						hodnota selected nemusí bıt zadána
+						pole mÅ¯Å¾e takÃ© opsahovat jen jeden prvek [text,value] platÃ­ ale jen pokud chceme pracovat s jednÃ­m option
+						hodnota selected nemusÃ­ bÃ½t zadÃ¡na
 						
-					- pokud je pole length=1 tak pokud není pole[0] object tak je pøevedeno na podpole
-					tj. pokud pole je ['txt','val'] tak si jej opraví jako [['txt','val]], tot je zavedo pro
-					zjednodušení zápisu pøi vkládání jen jednoho option
+					- pokud je pole length=1 tak pokud nenÃ­ pole[0] object tak je pÅ™evedeno na podpole
+					tj. pokud pole je ['txt','val'] tak si jej opravÃ­ jako [['txt','val]], tot je zavedo pro
+					zjednoduÅ¡enÃ­ zÃ¡pisu pÅ™i vklÃ¡dÃ¡nÃ­ jen jednoho option
 				el	 = element select
 				
-				fn vrací odkaz na poslední vloenı option, jinak je undefined
+				fn vracÃ­ odkaz na poslednÃ­ vloÅ¾enÃ½ option, jinak je undefined
 			*/
 			var a,x,vs,r;
 			if(typeof jak=='undefined')jak='new';
@@ -768,7 +768,7 @@ if(JB.forms==undefined){
 				if(jak=='add'){
 					if(vs.indexOf(pole[a][1])==-1)
 						r=add_opt_itm(el,pole[a]);
-				}else{ //dbl a new jen pøidává na konec
+				}else{ //dbl a new jen pÅ™idÃ¡vÃ¡ na konec
 					r=add_opt_itm(el,pole[a]);
 				}
 			}		
@@ -784,103 +784,103 @@ if(JB.forms==undefined){
 		}
 		this.make = function(el,name,add,elms){
 			/*
-			vytvoøí formuláø s názvem v name, funkce frací jako vısledek tento objekt s class "frm_frm_main"
-				-	el je html objekt kde se form vloí   el.addChild(form)
-				-	"add" je objekt se skuteènımi názvy atributù form, popø s vlastními názvy atribùtu které chceme pro form vytvoøit
-					tzn.bìné atributy jsou id,class,style,onclick atp.
-				-	"elms" je pole objektù podle kterıch se tvoøí formuláø
+			vytvoÅ™Ã­ formulÃ¡Å™ s nÃ¡zvem v name, funkce fracÃ­ jako vÃ½sledek tento objekt s class "frm_frm_main"
+				-	el je html objekt kde se form vloÅ¾Ã­   el.addChild(form)
+				-	"add" je objekt se skuteÄnÃ½mi nÃ¡zvy atributÅ¯ form, popÅ™ s vlastnÃ­mi nÃ¡zvy atribÅ¯tu kterÃ© chceme pro form vytvoÅ™it
+					tzn.bÄ›Å¾nÃ© atributy jsou id,class,style,onclick atp.
+				-	"elms" je pole objektÅ¯ podle kterÃ½ch se tvoÅ™Ã­ formulÃ¡Å™
 					jeden objekt s properties:	
-									.typ		= jedno z tìchto
+									.typ		= jedno z tÄ›chto
 											text,textarea,checkbox,radio,select,multiselect,hidden,password,file,button,submit,reset
-											a speciální "group"
+											a speciÃ¡lnÃ­ "group"
 											
-											potom lze pouít speciální typ kterı slouí jako pøíkaz, zadává se jen typ a popø. k ní propojená volba
+											potom lze pouÅ¾Ã­t speciÃ¡lnÃ­ typ kterÃ½ slouÅ¾Ã­ jako pÅ™Ã­kaz, zadÃ¡vÃ¡ se jen typ a popÅ™. k nÃ­ propojenÃ¡ volba
 											command typ : 
-												br = vloí element <br>, poèet se zadává do 'cn' default je 1, poèet nemusí bıt zadán pø:{typ:'br',cn:2} vloí dvakrát <br>
-												label = vloí element span pomocí JB.x.tx
+												br = vloÅ¾Ã­ element <br>, poÄet se zadÃ¡vÃ¡ do 'cn' default je 1, poÄet nemusÃ­ bÃ½t zadÃ¡n pÅ™:{typ:'br',cn:2} vloÅ¾Ã­ dvakrÃ¡t <br>
+												label = vloÅ¾Ã­ element span pomocÃ­ JB.x.tx
 														JB.x.tx(akt,tx,{ob:x,ad:akt.ad});
-														tzn jsou dále platná
-														.tx = text kterı bude span obsahovat
-														.ad = objekt properties navíc jako u fn JB.x.tx
+														tzn jsou dÃ¡le platnÃ¡
+														.tx = text kterÃ½ bude span obsahovat
+														.ad = objekt properties navÃ­c jako u fn JB.x.tx
 														
-												ennmcss = zapne pøidávání jména inputu do class obálky elementu
-												dsnmcss = vypne pøidávání jména inputu do class obálky elementu
+												ennmcss = zapne pÅ™idÃ¡vÃ¡nÃ­ jmÃ©na inputu do class obÃ¡lky elementu
+												dsnmcss = vypne pÅ™idÃ¡vÃ¡nÃ­ jmÃ©na inputu do class obÃ¡lky elementu
 												
-											CSS tato hodnota je zanesena do css øetìzce div obálky s prefixem "el_typ_" pø. "el_typ_checkbox"
+											CSS tato hodnota je zanesena do css Å™etÄ›zce div obÃ¡lky s prefixem "el_typ_" pÅ™. "el_typ_checkbox"
 									
-									.label	= zobrazenı text / nemusí bıt zadán, nebude nic zobrazeno
-										násl. properties jsou závisle jen pøi pouití label
-										.lbl_tp	= label type mùe bıt
-											bf = before, pøed input elementem
+									.label	= zobrazenÃ½ text / nemusÃ­ bÃ½t zadÃ¡n, nebude nic zobrazeno
+										nÃ¡sl. properties jsou zÃ¡visle jen pÅ™i pouÅ¾itÃ­ label
+										.lbl_tp	= label type mÅ¯Å¾e bÃ½t
+											bf = before, pÅ™ed input elementem
 											af = after, za elementem
-										.lbl_br = (def=false) je vloen element <br> mezi label a element
+										.lbl_br = (def=false) je vloÅ¾en element <br> mezi label a element
 									
-									.pop	= zajistí nastavení atributù ALT a TITLE pro DIV elementu, nebo buttonu
+									.pop	= zajistÃ­ nastavenÃ­ atributÅ¯ ALT a TITLE pro DIV elementu, nebo buttonu
 									
-									pro elementy jsou platné : 
-										.name	= jméno elementu stejné jako atribut name inputu, selectu atp
-										.val		= pole hodnot elementu (povoleno je také místo pole string nebo number, které si sama funkce pøevede na jednoprvkové pole)
-											!! nìkdy není val u inputù vyadováno, take pokud není zadáno, je pouit jako default prázdnı øetìzec !!
-											u inputu jako je text, textarea je pole jednoprvkové
-											u inputu checkbox, radio, select, je vytvoøeno pro katou hodnotu input se stejnım name, nebo option v selectu
+									pro elementy jsou platnÃ© : 
+										.name	= jmÃ©no elementu stejnÃ© jako atribut name inputu, selectu atp
+										.val		= pole hodnot elementu (povoleno je takÃ© mÃ­sto pole string nebo number, kterÃ© si sama funkce pÅ™evede na jednoprvkovÃ© pole)
+											!! nÄ›kdy nenÃ­ val u inputÅ¯ vyÅ¾adovÃ¡no, takÅ¾e pokud nenÃ­ zadÃ¡no, je pouÅ¾it jako default prÃ¡zdnÃ½ Å™etÄ›zec !!
+											u inputu jako je text, textarea je pole jednoprvkovÃ©
+											u inputu checkbox, radio, select, je vytvoÅ™eno pro kaÅ¾tou hodnotu input se stejnÃ½m name, nebo option v selectu
 												jeden prvek pro select je pole [tx,val,def]
 												jeden prvek pro checkbox/radio [tx,val,def]
 												kde
 													tx je atribut 'text' options nebo text/popis checkboxu/radiobuttonu
 													val je atribut 'value' options nebo value checkboxu/radiobuttonu
-													def je defaultne vybraná hodnota obsahuje true nebo false
+													def je defaultne vybranÃ¡ hodnota obsahuje true nebo false
 											
-										.add		= objekt atributù jako vıše u formu pro obálku alementu DIV
-										.add_inp	= objekt atributù jako vıše u formu pøímo pro input element, napø.pro monost nastavit css, rozmìry atp
-												u checkboxu a radiobutonu je ignorováno
+										.add		= objekt atributÅ¯ jako vÃ½Å¡e u formu pro obÃ¡lku alementu DIV
+										.add_inp	= objekt atributÅ¯ jako vÃ½Å¡e u formu pÅ™Ã­mo pro input element, napÅ™.pro moÅ¾nost nastavit css, rozmÄ›ry atp
+												u checkboxu a radiobutonu je ignorovÃ¡no
 										
-										atribut class lze nastavit pøes object add.className
-										style pøes add.style = javascript object elementu style, pø. add{style:{width:'100px'}}
+										atribut class lze nastavit pÅ™es object add.className
+										style pÅ™es add.style = javascript object elementu style, pÅ™. add{style:{width:'100px'}}
 										
-										u checkboxu a radiobutonu je kadá volba (text popisu + ovl.prvek) zapouzdøen do DIV s css "frm_el_option"
+										u checkboxu a radiobutonu je kaÅ¾dÃ¡ volba (text popisu + ovl.prvek) zapouzdÅ™en do DIV s css "frm_el_option"
 										
-									dále pro elemety typu text a textarea je platné
-										.maxlength = maximální délka, bude vytvoøen span za input kterı zobrazí zbıvající znaky
-										.showmaxlen = default true - jestli se má zobrazit zbıvající znaky za inputem
-										.test   =  mùe obsahovat regexp objekt, funkci nebo string kterı projde funkcí eval
-												regexp	- pro otestování vstupu po zadání
-												string	- pokud tato prop bude obsahovat øetìzec tak bude protaen funkcí eval
-														funkce v øetìzci musí vrátit false nebo true, pokud vrátí false nastaví inputu první css "frm_input_err"
-														kde bude promìnná s_val obsahovat aktuální hodnotu tohoto pole
-												function	-	je volána pøímo tato funkce pro vyhodnocení, pokud je zavolána tato funkce platí v ní s_val v které
-														je hodnota pole pro test, tato hodnota je i v promìnné pokud je tato funkce zapsána jako function(x)
-														funkce musí vrátit true/false a platí nastavení css jako u stringu
+									dÃ¡le pro elemety typu text a textarea je platnÃ©
+										.maxlength = maximÃ¡lnÃ­ dÃ©lka, bude vytvoÅ™en span za input kterÃ½ zobrazÃ­ zbÃ½vajÃ­cÃ­ znaky
+										.showmaxlen = default true - jestli se mÃ¡ zobrazit zbÃ½vajÃ­cÃ­ znaky za inputem
+										.test   =  mÅ¯Å¾e obsahovat regexp objekt, funkci nebo string kterÃ½ projde funkcÃ­ eval
+												regexp	- pro otestovÃ¡nÃ­ vstupu po zadÃ¡nÃ­
+												string	- pokud tato prop bude obsahovat Å™etÄ›zec tak bude protaÅ¾en funkcÃ­ eval
+														funkce v Å™etÄ›zci musÃ­ vrÃ¡tit false nebo true, pokud vrÃ¡tÃ­ false nastavÃ­ inputu prvnÃ­ css "frm_input_err"
+														kde bude promÄ›nnÃ¡ s_val obsahovat aktuÃ¡lnÃ­ hodnotu tohoto pole
+												function	-	je volÃ¡na pÅ™Ã­mo tato funkce pro vyhodnocenÃ­, pokud je zavolÃ¡na tato funkce platÃ­ v nÃ­ s_val v kterÃ©
+														je hodnota pole pro test, tato hodnota je i v promÄ›nnÃ© pokud je tato funkce zapsÃ¡na jako function(x)
+														funkce musÃ­ vrÃ¡tit true/false a platÃ­ nastavenÃ­ css jako u stringu
 														
-												pø tohoto pole
+												pÅ™ tohoto pole
 													/^\d{2,5}$/
-													nebo 	string 'testovaci_funkce(s_val)' musí vrátit true pokud test OK nebo false
+													nebo 	string 'testovaci_funkce(s_val)' musÃ­ vrÃ¡tit true pokud test OK nebo false
 													nebo	.test:function(){
 																return s_val=='';
 															}
-													nebo	.test:function(x){  je také platnı, x bude obsahovat s_val
+													nebo	.test:function(x){  je takÃ© platnÃ½, x bude obsahovat s_val
 																return x=='';
 															}
 												
-												pokut je toto nastaveno tak jsou platné následující css
-													-"ftm_el_errdiv" je DIV za inputem kterı je zobrazen pøi chybì, tzn v CSS nastavit napø jako ètverec
-														16x16 s pozadím ikony vykøièníku, kde pøi najetí nad tento div je zobrazen text z "test_er_tx"
-													-"frm_input_err" toto css je nastaveno pøímo na inputu pøi chybì
+												pokut je toto nastaveno tak jsou platnÃ© nÃ¡sledujÃ­cÃ­ css
+													-"ftm_el_errdiv" je DIV za inputem kterÃ½ je zobrazen pÅ™i chybÄ›, tzn v CSS nastavit napÅ™ jako Ätverec
+														16x16 s pozadÃ­m ikony vykÅ™iÄnÃ­ku, kde pÅ™i najetÃ­ nad tento div je zobrazen text z "test_er_tx"
+													-"frm_input_err" toto css je nastaveno pÅ™Ã­mo na inputu pÅ™i chybÄ›
 												
-										.test_er_tx = text nemusí bıt zadán, pokud je, tak se zobrazí pøi chybném vyhodnocení podle pøedchozí promìnné "test"
-													pro zobrazení tohoto je nutno nastavit CSS viz pøedchozí property .test
+										.test_er_tx = text nemusÃ­ bÃ½t zadÃ¡n, pokud je, tak se zobrazÃ­ pÅ™i chybnÃ©m vyhodnocenÃ­ podle pÅ™edchozÃ­ promÄ›nnÃ© "test"
+													pro zobrazenÃ­ tohoto je nutno nastavit CSS viz pÅ™edchozÃ­ property .test
 													
-										.acc		= regexp povolenıch znakù pø. /[\d#&]/  jsou povoleny èísla a znaky "#" a "&"
+										.acc		= regexp povolenÃ½ch znakÅ¯ pÅ™. /[\d#&]/  jsou povoleny ÄÃ­sla a znaky "#" a "&"
 										
-									pro group je platné
-										.elms	= jako u formuláøe, tzn odpovídá tomuto objektu elms = pole objektù pro vytvoøení elementù ale budou zapouzdøeny v elementu group
-										.grtyp	= (nemusí bıt def='dv')
-												  'dv' pro vytvoøení z div
-												  'fs' pro vytvoøení z fieldset
-										.enabler = def=false pokud je zadán true, tak je jen u grtyp='fs' zobrazen v popisu checkboc na ovldání zapnutí/vypnutí fieldsetu
-										.label	= (nemusí bıt def='')
+									pro group je platnÃ©
+										.elms	= jako u formulÃ¡Å™e, tzn odpovÃ­dÃ¡ tomuto objektu elms = pole objektÅ¯ pro vytvoÅ™enÃ­ elementÅ¯ ale budou zapouzdÅ™eny v elementu group
+										.grtyp	= (nemusÃ­ bÃ½t def='dv')
+												  'dv' pro vytvoÅ™enÃ­ z div
+												  'fs' pro vytvoÅ™enÃ­ z fieldset
+										.enabler = def=false pokud je zadÃ¡n true, tak je jen u grtyp='fs' zobrazen v popisu checkboc na ovldÃ¡nÃ­ zapnutÃ­/vypnutÃ­ fieldsetu
+										.label	= (nemusÃ­ bÃ½t def='')
 												  pro 'fs' bude nastavent element <legend>
-												  pro 'dv' bude nastaven <span> v hlavièce 
-										.csN		= (nemusí bıt zadáno def='') classname pøidané k atributu class="frm_grp_main"
+												  pro 'dv' bude nastaven <span> v hlaviÄce 
+										.csN		= (nemusÃ­ bÃ½t zadÃ¡no def='') classname pÅ™idanÃ© k atributu class="frm_grp_main"
 												  
 												  pro 'dv'
 													|-div main---------------|	css "frm_grp_main"
@@ -901,32 +901,32 @@ if(JB.forms==undefined){
 													|  content               |
 													|------------------------|
 													
-									element formu je vytvoøen jako pro 'lbl_tp'='bf'
+									element formu je vytvoÅ™en jako pro 'lbl_tp'='bf'
 									
 										|-div main--------------------|		css "frm_el_main"
 										| |-div lablel--------------| |		css "frm_el_label"
 										| | <span>label</span>      | |
 										| |-------------------------| |
-										| <br>                      | | 	jen v pøípadì 'lbl_br'=true jinak nebude element vytvoøen
+										| <br>                      | | 	jen v pÅ™Ã­padÄ› 'lbl_br'=true jinak nebude element vytvoÅ™en
 										| |-div input---------------| |		css "frm_el_content"
-										| | <input><span-txln>      | |		css pro txln = "frm_el_txln" jen pokud je pouito maxlength, jinak span neexistuje
+										| | <input><span-txln>      | |		css pro txln = "frm_el_txln" jen pokud je pouÅ¾ito maxlength, jinak span neexistuje
 										| |-------------------------| |
 										|-----------------------------|
 										
 										pokud je 'lbl_tp'='af' je "div label" a "div_input" prohozeno
 					
-					- na kadém inputu, selectu je pøidána property JBlabel co je odkaz na element SPAN v labelu - obsahuje text label
+					- na kaÅ¾dÃ©m inputu, selectu je pÅ™idÃ¡na property JBlabel coÅ¾ je odkaz na element SPAN v labelu - obsahuje text label
 					
-					-funkce pouitelné z venku
-						- test() = vrátí false pokud nìjakı input neslòuje zadaná kritéria v jeho "test" properties
-						- values() = vrací objekt naètenıch hodnot pokud není nìjakı chybnì vyplnìnı z formuláøe pomocí JB.forms.getVals - zkratka
-									pokud je v nìkterém inputu chyba vrátí undefined
+					-funkce pouÅ¾itelnÃ© z venku
+						- test() = vrÃ¡tÃ­ false pokud nÄ›jakÃ½ input neslÅˆuje zadanÃ¡ kritÃ©ria v jeho "test" properties
+						- values() = vracÃ­ objekt naÄtenÃ½ch hodnot pokud nenÃ­ nÄ›jakÃ½ chybnÄ› vyplnÄ›nÃ½ z formulÃ¡Å™e pomocÃ­ JB.forms.getVals - zkratka
+									pokud je v nÄ›kterÃ©m inputu chyba vrÃ¡tÃ­ undefined
 			*/
 			var frm=JB.x.cel('form',{csN:'frm_frm_main',ob:el,ad:add});
 			frm.name=name;
 			frm.values=function(prefix){
-			//pomocí prefix lze omezit vıbìr inputù jen na jména z tímto prefixem
-			//			prefix je z názvu odstranìn tzn jméno "val_neco" a prefix "val_" bude jméno "neco"
+			//pomocÃ­ prefix lze omezit vÃ½bÄ›r inputÅ¯ jen na jmÃ©na z tÃ­mto prefixem
+			//			prefix je z nÃ¡zvu odstranÄ›n tzn jmÃ©no "val_neco" a prefix "val_" bude jmÃ©no "neco"
 				if(this.test())
 					return JB.forms.Vals(this.name,prefix);
 				else
@@ -982,13 +982,13 @@ if(JB.forms==undefined){
 				}
 			}
 			function make_elms(el,in_elms){
-				//hlavní rutina - recursivní
-				//el je element kterı bude obsahovat elms
+				//hlavnÃ­ rutina - recursivnÃ­
+				//el je element kterÃ½ bude obsahovat elms
 				var akt,x,e,m,l,c,f,o,add_val,add_name,el_lab;
 				var add_nm_css=false;
 				for(var for_a=0;for_a<in_elms.length;for_a++){
 					akt=in_elms[for_a];
-					if(typeof akt!= 'undefined')// ochrana následujícího IF, IE chybnì interpretuje pole a soubor metod poèítá do length pole
+					if(typeof akt!= 'undefined')// ochrana nÃ¡sledujÃ­cÃ­ho IF, IE chybnÄ› interpretuje pole a soubor metod poÄÃ­tÃ¡ do length pole
 					if(typeof akt.typ != 'undefined'){
 						if(/group/gi.test(akt.typ)){
 							x=make_group(el,akt)
@@ -1013,7 +1013,7 @@ if(JB.forms==undefined){
 								el_lab=undefined;
 								if(typeof akt.lbl_tp=='undefined')akt.lbl_tp='bf';
 								if(/(submit)|(reset)|(button)|(hidden)/gi.test(akt.typ)){
-									//pro tyto je zákaz labelu a divu
+									//pro tyto je zÃ¡kaz labelu a divu
 									akt.lbl_tp='';
 									m=x;
 								}else{
@@ -1027,7 +1027,7 @@ if(JB.forms==undefined){
 										JB.x.BR({ob:m});
 								}
 								
-								// ošetøi val
+								// oÅ¡etÅ™i val
 								add_val=true;
 								if(typeof akt.val=='undefined'){
 									akt.val='';
@@ -1038,14 +1038,14 @@ if(JB.forms==undefined){
 									e.push(akt.val);
 									akt.val=e;
 								}
-								//ošetøi name
+								//oÅ¡etÅ™i name
 								add_name=true;
 								if(typeof akt.name=='undefined'){
 									akt.name='';
 									add_name=false;
 								}
 								
-								//BOF vytvoø element
+								//BOF vytvoÅ™ element
 								c=JB.x.cel('div',{ob:m,csN:'frm_el_content'});
 								if(/select/gi.test(akt.typ)){
 									e=JB.x.cel('select',{ob:c,ad:akt.add_inp});
@@ -1080,7 +1080,7 @@ if(JB.forms==undefined){
 									make_text_ads(c,e,akt);
 								}else if(/(text)|(submit)|(reset)|(button)|(hidden)/gi.test(akt.typ)){
 									if(!/(text)/gi.test(akt.typ)){
-										//pro ovl prvky odstraò DIV, která je jako obálka pro typ "text"
+										//pro ovl prvky odstraÅˆ DIV, kterÃ¡ je jako obÃ¡lka pro typ "text"
 										m.removeChild(c);
 										c=m;
 									}
@@ -1095,7 +1095,7 @@ if(JB.forms==undefined){
 									if(/text/gi.test(akt.typ))
 										make_text_ads(c,e,akt);
 								}
-								//EOF vytvoø element
+								//EOF vytvoÅ™ element
 								
 								if(akt.lbl_tp=='af'){
 									if(akt.lbl_br==true)
@@ -1109,8 +1109,8 @@ if(JB.forms==undefined){
 				}
 			}
 			function make_text_ads(parent, el, itm){
-				// parent - hlavní element
-				// el inputtext element, parent je rodiè
+				// parent - hlavnÃ­ element
+				// el inputtext element, parent je rodiÄ
 				// itm je item z elms
 				var x=false;
 				if(typeof itm.test != 'undefined'){
@@ -1134,14 +1134,14 @@ if(JB.forms==undefined){
 					x=true;
 				}
 				if(x){
-					el.onkeyupjbfrm=el.onkeyup;//vytvoøení inherit
+					el.onkeyupjbfrm=el.onkeyup;//vytvoÅ™enÃ­ inherit
 					el.onkeyup=function(e){
 						e=this.getkeyevent(e);
 						var a=String(this.value);
 						if(typeof this.maxlength!='undefined'){
-							//kontrola max délky, pøepoèítání a oøez
+							//kontrola max dÃ©lky, pÅ™epoÄÃ­tÃ¡nÃ­ a oÅ™ez
 							if(a.length>this.maxlength){
-								this.value=a.substr(0,this.maxlength); // oøez pro pøípad ctrl+v
+								this.value=a.substr(0,this.maxlength); // oÅ™ez pro pÅ™Ã­pad ctrl+v
 								return false;
 							}
 							a=String(this.value);
@@ -1150,7 +1150,7 @@ if(JB.forms==undefined){
 						}
 						this.test_value();
 						if(typeof e !=undefined)
-							// volání inherit
+							// volÃ¡nÃ­ inherit
 							if(typeof this.onkeyupjbfrm!='undefined')
 								try{
 									this.onkeyupjbfrm(e);
@@ -1167,18 +1167,18 @@ if(JB.forms==undefined){
 								try{
 									this.onchange();
 								}catch(e){}
-							return true;//pokud je key pøíkazová klávesa tak ok
+							return true;//pokud je key pÅ™Ã­kazovÃ¡ klÃ¡vesa tak ok
 						}
 						if(typeof this.maxlength!='undefined'){
 							this.txtln.innerHTML='('+(this.maxlength-a.length)+'/'+this.maxlength+')';
 							//test maxlength
 							if(a.length>(this.maxlength-1))
-								return false;// zákaz uplatnìní zmìny, pøi pøekroení maxlength
+								return false;// zÃ¡kaz uplatnÄ›nÃ­ zmÄ›ny, pÅ™i pÅ™ekroÅ¾enÃ­ maxlength
 						}
 						if(typeof this.reg_acc!='undefined'){
 							//pojisti global
 							this.reg_acc.global=true;
-							//filtruj nepøípustné znaky
+							//filtruj nepÅ™Ã­pustnÃ© znaky
 							var o=String.fromCharCode(e);
 							var x=this.reg_acc.test(o);
 							if(!x)return false;
@@ -1186,7 +1186,7 @@ if(JB.forms==undefined){
 						//test obsahu
 						//this.test_value();
 						if(typeof e !=undefined)
-							// volání inherit
+							// volÃ¡nÃ­ inherit
 							if(typeof this.onkeypressfrm!='undefined')
 								try{
 									this.onkeypressfrm(e);
@@ -1216,7 +1216,7 @@ if(JB.forms==undefined){
 									s=this.reg_test.toString();
 									if(!/^\/.*\/g?i?g?$/g.test(s)){
 										if(!/^function\s*\(/i.test(s)){
-											return false;//test formátu regexpu a funkce aby to nebyl jinı objekt
+											return false;//test formÃ¡tu regexpu a funkce aby to nebyl jinÃ½ objekt
 										}else{
 											//funkce
 											fn=true;
@@ -1251,7 +1251,7 @@ if(JB.forms==undefined){
 						return true;
 					}
 					el.getkeyevent=function(e){
-						//vrací keycode
+						//vracÃ­ keycode
 						var k=0;
 						if(typeof window.event != 'undefined'){ // IE
 							try{
@@ -1312,7 +1312,7 @@ JB.is = new function(){
 		return a;
 	}
 	this.empty=function(x){
-		//vrací true, pokud je x null nebo undefined
+		//vracÃ­ true, pokud je x null nebo undefined
 		try{
 			if(x==undefined)return true;
 			if(x==null)return true;
@@ -1325,9 +1325,9 @@ JB.is = new function(){
 	this.date =function(x_num)
 	{
 	var a,b,c,x,z;
-	// isd_x_num = string nebo jiné, které si pøevede na string
+	// isd_x_num = string nebo jinÃ©, kterÃ© si pÅ™evede na string
 
-	// vrací true, jestli je string datum-ne s èasem, jinak false
+	// vracÃ­ true, jestli je string datum-ne s Äasem, jinak false
 	// bere datum dd.mm.yyyy d.m.yyyy
 		x_num=String(x_num);
 	//	x_num=CorrectIfShortDatum(x_num);
@@ -1341,33 +1341,33 @@ JB.is = new function(){
 		x[1]=Math.floor(x[1]);
 		x[2]=Math.floor(x[2]);
 		
-		//test pøestupného roku a min roku 1900
+		//test pÅ™estupnÃ©ho roku a min roku 1900
 		if(x[2]<1900){return false};
 		c=Math.floor(x[2]/4)*4;
 		if(c==x[2]){b=true}else{b=false};
 
-		//test mìsíce
+		//test mÄ›sÃ­ce
 		if((x[1]>12)||(x[1]<1)){return false};
 
 		//test dne
 		if(x[0]<1){return false};
 		c=lns_month[x[1]-1];//b=max den
-		if(b && (x[1]==2)){c+=1};//v únoru a pøestupném roku zvyš o jeden
+		if(b && (x[1]==2)){c+=1};//v Ãºnoru a pÅ™estupnÃ©m roku zvyÅ¡ o jeden
 		if(x[0]>c){return false};
 
 		return true;
 	}		
 	this.time=function(x){
-		//vrací true pokud je "x" èas formátu 0:0:0 bez mezer
+		//vracÃ­ true pokud je "x" Äas formÃ¡tu 0:0:0 bez mezer
 		var z;
 			z=/^([01]?\d|[2][0-3])\:[0-5]?\d\:[0-5]?\d$/;
 			if(!z.test(x)){return false};
 			return true;
 	};
 	this.datetime=function(x){
-		//test jestli "x" je datum a èas, je striktní na mezery, mezera mùe bıt pouze mez datem a èasem 
-		// formát "d.M.YYYY h:m:s" nebo "dd.MM.yyyy hh:mm:ss" mezera jen jedna
-		// formát "d.M.YY h:m:s" nebo "dd.MM.yy hh:mm:ss" mezera jen jedna
+		//test jestli "x" je datum a Äas, je striktnÃ­ na mezery, mezera mÅ¯Å¾e bÃ½t pouze mez datem a Äasem 
+		// formÃ¡t "d.M.YYYY h:m:s" nebo "dd.MM.yyyy hh:mm:ss" mezera jen jedna
+		// formÃ¡t "d.M.YY h:m:s" nebo "dd.MM.yy hh:mm:ss" mezera jen jedna
 		x=String(x);
 		if(x.length<1){return false};
 		var z=/^((\d?\d)\.){2}((\d){4}|(\d){2}) (\d?\d\:){2}\d?\d$/;
@@ -1381,7 +1381,7 @@ JB.is = new function(){
 	}
 	this.PSC=function(x){return /^\d{3} ?\d{2}$/.test(x);}
 	this.email=function(x,multiple){
-	//multiple=vícenasobné ip adresy oddìlené støedníkem
+	//multiple=vÃ­cenasobnÃ© ip adresy oddÄ›lenÃ© stÅ™ednÃ­kem
 		var s;
 		if(multiple){
 			s = /^((\w|[_%+-])+(\.(\w|[_%+-])+)*@((\w|[_%+-])+\.)+(\w|[_%+-])+)( *; *\1)*$/;
@@ -1392,16 +1392,16 @@ JB.is = new function(){
 	}
 	this.IMEI=function(x,ch_sum){
 	var a,c,o,ch,kont;
-		// vrací true false jestli je text na vstupu IMEI - kontrola checksum
+		// vracÃ­ true false jestli je text na vstupu IMEI - kontrola checksum
 		x=String(x);
 		o=x;
 		if(!/^\d{15}_?$/.test(o)){return false};
 		if(!ch_sum){return true};
 		o="";
 		kont=(x.charAt(14)*1);
-	// kont = kontrolní èíslo
-	// kadé sudé èíslo se znásobí a zamìní jeho vısledkem v øetìzci
-	// Pøíklad 49015 42032 3751 + kontrolní vypoèítáme
+	// kont = kontrolnÃ­ ÄÃ­slo
+	// kaÅ¾dÃ© sudÃ© ÄÃ­slo se znÃ¡sobÃ­ a zamÄ›nÃ­ jeho vÃ½sledkem v Å™etÄ›zci
+	// PÅ™Ã­klad 49015 42032 3751 + kontrolnÃ­ vypoÄÃ­tÃ¡me
 	// IMEI 				4	9	 	0 	1 	5 	4 	2 	0 	3 	2 	3 	7 		5 	1 	?
 	// Double every other 	4	18 		0 	2 	5 	8 	2 	0 	3 	4 	3 	14 		5 	2 	?
 	// Sum digits 			4 + (1+8) +	0 + 2 + 5 + 8 + 2 + 0 + 3 + 4 + 3 + (1+4)+ 	5 + 2 +	? = 52 + ?
@@ -1409,7 +1409,7 @@ JB.is = new function(){
 			ch=x.charAt(a);
 			c=(a+1)/2;
 			if(Math.floor(c)==(c)){
-				//sudá * 2 - ale v indexování je to lichá
+				//sudÃ¡ * 2 - ale v indexovÃ¡nÃ­ je to lichÃ¡
 				ch=String(ch*2);
 			}
 			o += ch;
@@ -1423,8 +1423,8 @@ JB.is = new function(){
 		return (Math.floor(x/10)==(x/10));
 	}	
 	this.number=function(x){
-	// x_num= èíslo, nebo string
-	// vrací true kdy je x_num èíslo (i záporné i s des.teèkou), jinak vrací false
+	// x_num= ÄÃ­slo, nebo string
+	// vracÃ­ true kdyÅ¾ je x_num ÄÃ­slo (i zÃ¡pornÃ© i s des.teÄkou), jinak vracÃ­ false
 	var z;
 		x=String(x);
 		if(x.length<1){return false};
@@ -1433,8 +1433,8 @@ JB.is = new function(){
 		return true;
 	}
 	this.jsnumber=function(x){
-	// x_num= èíslo, nebo string
-	// vrací true kdy je x_num èíslo (i záporné i s des.teèkou), jinak vrací false
+	// x_num= ÄÃ­slo, nebo string
+	// vracÃ­ true kdyÅ¾ je x_num ÄÃ­slo (i zÃ¡pornÃ© i s des.teÄkou), jinak vracÃ­ false
 	var z;
 		x=String(x);
 		if(x.length<1){return false};
@@ -1450,28 +1450,28 @@ JB.is = new function(){
 		}
 	}
 	this.integer=function(x){
-	// test na integer, celé èíslo
-	// na zaèátku èísla nebo mezi mínusem a èíslem nezmí bıt nuly
+	// test na integer, celÃ© ÄÃ­slo
+	// na zaÄÃ¡tku ÄÃ­sla nebo mezi mÃ­nusem a ÄÃ­slem nezmÃ­ bÃ½t nuly
 		x=String(x);
 		if(x.length<1){return false};
 	var z=/^\-?[1-9]\d*$/;
 		return z.test(x);
 	}
 	this.telnum=function(x){
-	//vrací true pokud je tel èíslo nebo øetìzec "neposkytl", "neposkytla"
-	//bere +xxx xxx x x x x x x kde mezery nejsou povinné
-	//bere xxx x x x x x x kde mezery nejsou povinné
-	// pøed øetìzcem mùe bıt mezera
-	// za øetìzcem mùe bıt nezera
+	//vracÃ­ true pokud je tel ÄÃ­slo nebo Å™etÄ›zec "neposkytl", "neposkytla"
+	//bere +xxx xxx x x x x x x kde mezery nejsou povinnÃ©
+	//bere xxx x x x x x x kde mezery nejsou povinnÃ©
+	// pÅ™ed Å™etÄ›zcem mÅ¯Å¾e bÃ½t mezera
+	// za Å™etÄ›zcem mÅ¯Å¾e bÃ½t nezera
 		x=String(x);
 		if(x.length<1){return false};
 		return JB.is.telnums(x,true,true);
 	}
 	this.telnums=function(x,nps,vic){
-	// pokud nps=true tak pøijme jako tel èíslo taky "neposkytl", "neposkytla" ale jen pokud je zadáno jen jedno, jinak jej nepøijme
-	// mùe bıt více tel èísel oddìlenıch støedníkem
-	// pokud vic=false tak pøijme jen jedno èíslo
-	// typ èísel jako fn vıše
+	// pokud nps=true tak pÅ™ijme jako tel ÄÃ­slo taky "neposkytl", "neposkytla" ale jen pokud je zadÃ¡no jen jedno, jinak jej nepÅ™ijme
+	// mÅ¯Å¾e bÃ½t vÃ­ce tel ÄÃ­sel oddÄ›lenÃ½ch stÅ™ednÃ­kem
+	// pokud vic=false tak pÅ™ijme jen jedno ÄÃ­slo
+	// typ ÄÃ­sel jako fn vÃ½Å¡e
 	var a,z,s,ch;
 		x=String(x);
 		if(x.length<1){return false};
@@ -1494,18 +1494,18 @@ JB.is = new function(){
 
 JB.date = new function(){
 	this.correct=function(co){
-	// vrací pùvodní nebo opravené datum
-	// pøevede formát yyyy-mm-dd (SQL)
+	// vracÃ­ pÅ¯vodnÃ­ nebo opravenÃ© datum
+	// pÅ™evede formÃ¡t yyyy-mm-dd (SQL)
 	//               dd-mm-yyyy
 	//               d.m.y   /  d.m.yy
 	// na d.m.yyyy
-	// pokud øetìzec obsahuje hh:mm:ss tak tento kousek ponechá beze zmìn
+	// pokud Å™etÄ›zec obsahuje hh:mm:ss tak tento kousek ponechÃ¡ beze zmÄ›n
 	var x,z;
 	var tm='';
 		co=String(co);
 		z=/ (\d{1,2}:){2}\d{1,2}$/;
 		if(z.test(co)){
-			//pokud je na konci èas, tak extrahuj
+			//pokud je na konci Äas, tak extrahuj
 			tm=co.match(z)[0];
 			co=co.replace(z,'');
 			//tm obsahuje time hodnotu
@@ -1514,7 +1514,7 @@ JB.date = new function(){
 		co.replace(/ +/gi,'');
 		z=/^\d{4}-\d{1,2}-\d{1,2}$/;
 		if(z.test(co)){
-			//èíslo je yyyy-mm-dd
+			//ÄÃ­slo je yyyy-mm-dd
 			x=co.split(/-/g);
 			x[1]=Math.ceil(x[1]);
 			x[2]=Math.ceil(x[2]);
@@ -1522,7 +1522,7 @@ JB.date = new function(){
 		}
 		z=/^\d{1,2}-\d{1,2}-\d{4}$/;
 		if(z.test(co)){
-			//èíslo je dd-mm-yyyy
+			//ÄÃ­slo je dd-mm-yyyy
 			x=co.split(/-/g);
 			x[1]=Math.ceil(x[1]);
 			x[0]=Math.ceil(x[0]);
@@ -1530,7 +1530,7 @@ JB.date = new function(){
 		}
 		z=/^\d{1,2}\.\d{1,2}\.\d{1,4}$/;
 		if(z.test(co)){
-			//èíslo je d.m.y
+			//ÄÃ­slo je d.m.y
 			x=co.split(/\./g);
 			x[2]=Math.ceil(x[2]);
 			x[1]=Math.ceil(x[1]);
@@ -1538,7 +1538,7 @@ JB.date = new function(){
 			if (x[2]<100) {x[2] += (x[2]<80 ? 2000 : 1900)};
 			return x[0]+'.'+x[1]+'.'+x[2]+tm;
 		}
-		z=/^\d{1,2}\.\d{1,2}\.?$/;//zkrácené datum
+		z=/^\d{1,2}\.\d{1,2}\.?$/;//zkrÃ¡cenÃ© datum
 		if(z.test(co)){
 			x=co.split(/\./g);
 			x[1]=Math.ceil(x[1]);
@@ -1550,16 +1550,16 @@ JB.date = new function(){
 		return co;
 	}
 	this.numAdd = function(dttm,co,kolik){
-	// pøidá zvolenou hodnotu k datumu, datum musí bıt ve tvaru èísla
-	// dttm = datumcas ve tvaru èísla
+	// pÅ™idÃ¡ zvolenou hodnotu k datumu, datum musÃ­ bÃ½t ve tvaru ÄÃ­sla
+	// dttm = datumcas ve tvaru ÄÃ­sla
 	// co =	"se"-sekundy
 	//	  = "mi"=minuty
 	//    = "ho"=hodiny
 	//    = "d"=dny
-	//    = "m"=mìsíce
+	//    = "m"=mÄ›sÃ­ce
 	//	  = "y"=roky
-	// co není case
-	// kolik záporná, nebo kladná hodnota
+	// co nenÃ­ case
+	// kolik zÃ¡pornÃ¡, nebo kladnÃ¡ hodnota
 		if(IsNumber(kolik)==false){return 0};
 		if(kolik!=Math.floor(kolik)){return 0};
 		kolik=Math.floor(kolik);
@@ -1569,8 +1569,8 @@ JB.date = new function(){
 	var m=h/60;
 	var s=m/60;
 	var dt=Math.floor(dttm);//jen datum
-	var tm=dttm-dt;//èas
-	var dt_t;//pro testování data
+	var tm=dttm-dt;//Äas
+	var dt_t;//pro testovÃ¡nÃ­ data
 		dt=num_to_date(dt);
 		dt=dt.split(".");
 		dt[0]=Math.floor(dt[0]);
@@ -1593,23 +1593,23 @@ JB.date = new function(){
 				dttm+=kolik;
 				break;
 			case "m" :
-				kolik+=Math.floor(dt[1]);// = pøièti aktuální mìsíce
-				a=Math.floor(kolik/12);	//a = kolik rokù pøièíst
-				b=kolik-a*12;			//b = kolik mìsícù pøièíst na další rok
-				kolik=a;				// kolik = kolik rokù pøièíst
+				kolik+=Math.floor(dt[1]);// = pÅ™iÄti aktuÃ¡lnÃ­ mÄ›sÃ­ce
+				a=Math.floor(kolik/12);	//a = kolik rokÅ¯ pÅ™iÄÃ­st
+				b=kolik-a*12;			//b = kolik mÄ›sÃ­cÅ¯ pÅ™iÄÃ­st na dalÅ¡Ã­ rok
+				kolik=a;				// kolik = kolik rokÅ¯ pÅ™iÄÃ­st
 				dt[1]=String(b);
 			case "y" :
-			//pøidat kontrolu, jestli  není datum vyšší ne je povoleno v roku
+			//pÅ™idat kontrolu, jestli  nenÃ­ datum vyÅ¡Å¡Ã­ neÅ¾ je povoleno v roku
 				dt[1]=Math.floor(dt[1])+1;
 				dt[2]=Math.floor(dt[2])+kolik;
-				dt_t=lns_month[dt[1]-1];//získej max datum v mìsíci
-				if(Math.floor(dt[2]/4)==(dt[2]/4) && dt[1]==2){//oprav datum u druhého mìcíce, pokud je pøestupnı rok
+				dt_t=lns_month[dt[1]-1];//zÃ­skej max datum v mÄ›sÃ­ci
+				if(Math.floor(dt[2]/4)==(dt[2]/4) && dt[1]==2){//oprav datum u druhÃ©ho mÄ›cÃ­ce, pokud je pÅ™estupnÃ½ rok
 					dt_t += 1;
 				}
-				if(dt[0]>dt_t){//pokud je den vìtší jak povolenı tak uprav
+				if(dt[0]>dt_t){//pokud je den vÄ›tÅ¡Ã­ jak povolenÃ½ tak uprav
 					dt[0]=dt[0]-dt_t;
 					dt[1] += 1;
-					if(dt[1]>12){//pokud  je mìcíc vyšší jak 12, tak uprav
+					if(dt[1]>12){//pokud  je mÄ›cÃ­c vyÅ¡Å¡Ã­ jak 12, tak uprav
 						dt[1]=dt[1]-12;
 						dt[2] += 1;
 					}
@@ -1620,7 +1620,7 @@ JB.date = new function(){
 		return dttm;
 	}
 	this.DateAdd=function(str_dttm,co,kolik){
-		//jako numAdd ale na vstupu je øetìzcové vyjádøení datumu
+		//jako numAdd ale na vstupu je Å™etÄ›zcovÃ© vyjÃ¡dÅ™enÃ­ datumu
 		try{
 			x=this.toNum(str_dttm);
 			if(x==undefined)return;
@@ -1631,7 +1631,7 @@ JB.date = new function(){
 		}
 	}
 	this.toNumDate = function(x){
-	//pøevede datum na èíslo
+	//pÅ™evede datum na ÄÃ­slo
 	var a,b,y,m,d,c
 		if (IsDatum(x)==false){return 0};
 		x=x.split(".");
@@ -1648,7 +1648,7 @@ JB.date = new function(){
 		return (b+c);
 	}
 	this.NumToDate = function(x){
-	//pøevede èíslo na datum
+	//pÅ™evede ÄÃ­slo na datum
 	var a,y
 		if(IsNumber(x)==false){return ""};
 		a=Math.floor(x/1461);//1461= 4*365+1
@@ -1704,8 +1704,8 @@ JB.date = new function(){
 	//new universal utils
 	
 	this.toNum=function(x){
-		// pøevede x datum na num vyjádøení
-		// bere všechny formáty které rozpozná fn correct
+		// pÅ™evede x datum na num vyjÃ¡dÅ™enÃ­
+		// bere vÅ¡echny formÃ¡ty kterÃ© rozpoznÃ¡ fn correct
 		x=this.correct(String(x));
 		if(JB.is.datetime(x)){
 			x=x.split(" ");
@@ -1719,11 +1719,11 @@ JB.date = new function(){
 		}
 	}
 	this.fromNum=function(x,typ){
-		//vrací string vyjádøení datumu, podle poadavku v typ
-		//pokud typ není zadáno, tak vrací date pokud je èas 00:00:00, nebo datetime pokud je èas jinı jak nulovı
-		//typ = 1 vra jen date
-		//typ = 2 vra jen time
-		//typ = 3 vry datetime, pokud je time nulovı pøidá 0:0:0
+		//vracÃ­ string vyjÃ¡dÅ™enÃ­ datumu, podle poÅ¾adavku v typ
+		//pokud typ nenÃ­ zadÃ¡no, tak vracÃ­ date pokud je Äas 00:00:00, nebo datetime pokud je Äas jinÃ½ jak nulovÃ½
+		//typ = 1 vraÅ¥ jen date
+		//typ = 2 vraÅ¥ jen time
+		//typ = 3 vryÅ¥ datetime, pokud je time nulovÃ½ pÅ™idÃ¡ 0:0:0
 		if(typeof typ == 'undefined'){
 			typ=0;
 		}
@@ -1748,7 +1748,7 @@ JB.date = new function(){
 }
 JB.html = new function(){
 	this.RepCrit = function(x){
-		//v textu nahradí znaky '<' '>' a '&' html entitami
+		//v textu nahradÃ­ znaky '<' '>' a '&' html entitami
 		var y;
 		x=String(x);
 		if(x.length<1)return '';
@@ -1771,9 +1771,9 @@ JB.html = new function(){
 		}
 		return o;
 	}
-	//zjistí x umístìní elementu na stránce
-	//pouívat jQuery().offSet()
-	//ponecháno pro zpìtnou kompatibilitu
+	//zjistÃ­ x umÃ­stÄ›nÃ­ elementu na strÃ¡nce
+	//pouÅ¾Ã­vat jQuery().offSet()
+	//ponechÃ¡no pro zpÄ›tnou kompatibilitu
 	this.left = function (obj){
 		var curleft = 0;
 		if (obj.offsetParent)
@@ -1788,9 +1788,9 @@ JB.html = new function(){
 			curleft += obj.x;
 		return curleft;
 	}
-	//zjistí y umístìní elementu na stránce
-	//pouívat jQuery().offSet()
-	//ponecháno pro zpìtnou kompatibilitu
+	//zjistÃ­ y umÃ­stÄ›nÃ­ elementu na strÃ¡nce
+	//pouÅ¾Ã­vat jQuery().offSet()
+	//ponechÃ¡no pro zpÄ›tnou kompatibilitu
 	this.top = function (obj){
 		var curtop = 0;
 		if (obj.offsetParent)
@@ -1806,8 +1806,8 @@ JB.html = new function(){
 		return curtop;
 	}
 	this.pos = function(obj){
-	//pouívat jQuery().offSet()
-	//ponecháno pro zpìtnou kompatibilitu
+	//pouÅ¾Ã­vat jQuery().offSet()
+	//ponechÃ¡no pro zpÄ›tnou kompatibilitu
 		var o={};
 		o.left=this.left(obj);
 		o.top=this.top(obj);
@@ -1840,6 +1840,35 @@ if(JB.cookies==undefined){
 		this.check=function(c_name){
 			var x=getCookie(c_name);
 			return (x!=null && x!="");
+		}
+	}
+}
+
+JB.help = new function(){
+	this.ThMCE = new function(){
+		//helpfunkce pro ThinyMce
+		this.val = function(id,x){
+			//nastavÃ­ pÅ™eÅ¡te text z textarea, textarea musÃ­ mÃ­t ID
+			//	id je zadÃ¡no jako text bez znaku #
+			// pokud nenÃ­ nastaveno x tak provede ÄtenÃ­
+			// pokud je nastaveno x tak provede zÃ¡pis
+			var el=jQuery('#'+id);
+			if(el.length==1){
+				var tin=tinyMCE.get('popis');
+				if(tin==undefined){
+					if(x!=undefined){
+						el.html(x);
+					}else{
+						return el.html();
+					}
+				}else{
+					if(x!=undefined){
+						tin.setContent(x);
+					}else{
+						return tin.getContent();
+					}					
+				}
+			}
 		}
 	}
 }
