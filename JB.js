@@ -3,7 +3,7 @@ JB tools
 (c)2008
 www.dvetezar.cz
 
-v 2.0.3.2
+v 2.0.4.0
 */
 
 if(typeof JB == 'undefined'){
@@ -1520,15 +1520,20 @@ JB.is = new function(){
 }
 
 JB.date = new function(){
-	this.correct=function(co){
+	this.correct=function(co,jak){
 	// vrací původní nebo opravené datum
 	// převede formát yyyy-mm-dd (SQL)
 	//               dd-mm-yyyy
 	//               d.m.y   /  d.m.yy
 	// na d.m.yyyy
 	// pokud řetězec obsahuje hh:mm:ss tak tento kousek ponechá beze změn
+	// jak default 'dt' neusí být zadáno
+	//		'dt' default vrací datetime
+	//		'd' vrací jen date
+	//		't' vrací jen time
 	var x,z;
 	var tm='';
+		if(jak==undefined)jak='dt';
 		co=String(co);
 		z=/ (\d{1,2}:){2}\d{1,2}$/;
 		if(z.test(co)){
@@ -1537,6 +1542,7 @@ JB.date = new function(){
 			co=co.replace(z,'');
 			//tm obsahuje time hodnotu
 			//co je upraveno na datum
+			if(jak=='t')return tm;
 		}
 		co.replace(/ +/gi,'');
 		z=/^\d{4}-\d{1,2}-\d{1,2}$/;
@@ -1545,7 +1551,7 @@ JB.date = new function(){
 			x=co.split(/-/g);
 			x[1]=Math.ceil(x[1]);
 			x[2]=Math.ceil(x[2]);
-			return x[2]+'.'+x[1]+'.'+x[0]+tm;
+			return x[2]+'.'+x[1]+'.'+x[0]+((jak=='dt')?tm:'');
 		}
 		z=/^\d{1,2}-\d{1,2}-\d{4}$/;
 		if(z.test(co)){
@@ -1553,7 +1559,7 @@ JB.date = new function(){
 			x=co.split(/-/g);
 			x[1]=Math.ceil(x[1]);
 			x[0]=Math.ceil(x[0]);
-			return x[0]+'.'+x[1]+'.'+x[2]+tm;
+			return x[0]+'.'+x[1]+'.'+x[2]+((jak=='dt')?tm:'');
 		}
 		z=/^\d{1,2}\.\d{1,2}\.\d{1,4}$/;
 		if(z.test(co)){
@@ -1563,7 +1569,7 @@ JB.date = new function(){
 			x[1]=Math.ceil(x[1]);
 			x[0]=Math.ceil(x[0]);
 			if (x[2]<100) {x[2] += (x[2]<80 ? 2000 : 1900)};
-			return x[0]+'.'+x[1]+'.'+x[2]+tm;
+			return x[0]+'.'+x[1]+'.'+x[2]+((jak=='dt')?tm:'');
 		}
 		z=/^\d{1,2}\.\d{1,2}\.?$/;//zkrácené datum
 		if(z.test(co)){
@@ -1572,7 +1578,7 @@ JB.date = new function(){
 			x[0]=Math.ceil(x[0]);
 			var y= new Date();
 			y= y.getFullYear();
-			return x[0]+'.'+x[1]+'.'+ y+tm;
+			return x[0]+'.'+x[1]+'.'+ y+((jak=='dt')?tm:'');
 		}
 		return co;
 	}
