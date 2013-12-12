@@ -3,16 +3,16 @@ JB tools
 (c)2008
 www.dvetezar.cz
 
-v 2.0.4.0
+v 2.0.4.1
 */
 
 if(typeof JB == 'undefined'){
 	var JB = new Object;
 }
 
-String.prototype.convToUniEsc=function(){
+String.prototype.convToUniEsc=function(rem){
 	//escapuje unicode znaky pomocí hex pro JSON
-	return JBconvToUniEsc(this.valueOf());	
+	return JBconvToUniEsc(this.valueOf(),rem);	
 }
 
 function JBconvToUniEsc(a,rem){
@@ -572,8 +572,10 @@ if(JB.forms==undefined){
 			form_names=opr_forms_from_str(form_names);	
 			return get_vals_from_arr_form(form_names,true,prefix);
 		}
-		this.val=function(s_el,ob){ //ob = objekt {val:'',form:''}
-			/*
+		this.val=function(s_el,ob){ 
+			/*	s_el = element formu
+				ob = objekt {val:'',form:''}
+			
 			 Nepoužívá jQuery
 			 nastaví nebo přečte hodnotu elementu formuláře
 			 funkční pro select, multiselect, checkboxy, radiobutony, text, textarea, file, password, hidden, button, reset, submit
@@ -677,8 +679,10 @@ if(JB.forms==undefined){
 					//pokud dropdown box nebo není multiple povolen
 					if(g){
 						x=[];
-						z=el.options[el.selectedIndex].value;
-						x.push((JB.is.number(z)?(z*1):z));
+						if(el.options.length>0){
+							z=el.options[el.selectedIndex].value;
+							x.push((JB.is.number(z)?(z*1):z));
+						}
 						return x;
 					}else{
 						x=indexByVal(el.options,ob.val[0]);
@@ -1481,7 +1485,7 @@ JB.is = new function(){
 	// na začátku čísla nebo mezi mínusem a číslem nezmí být nuly
 		x=String(x);
 		if(x.length<1){return false};
-	var z=/^\-?[1-9]\d*$/;
+	var z=/^(\-?[1-9])|(0)\d*$/;
 		return z.test(x);
 	}
 	this.telnum=function(x){
