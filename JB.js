@@ -3,7 +3,7 @@ JB tools
 (c)2008
 www.dvetezar.cz
 
-v 2.0.4.5
+v 2.0.4.6
 */
 
 if(typeof JB == 'undefined'){
@@ -1646,7 +1646,7 @@ JB.date = new function(){
 			vdt=true;
 			vtm=true;
 		}
-		return this.printable(co,{dt:vdt,tm:vtm});
+		return JB.date.printable(co,{dt:vdt,tm:vtm});
 	}
 	this.numAdd = function(dttm,co,kolik){
 	// přidá zvolenou hodnotu k datumu, datum musí být ve tvaru čísla
