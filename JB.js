@@ -3,7 +3,7 @@ JB tools
 (c)2008
 www.dvetezar.cz
 
-v 2.0.4.6
+v 2.0.4.7
 */
 
 if(typeof JB == 'undefined'){
@@ -1572,6 +1572,9 @@ JB.date = new function(){
 			d.M.yyyy H:m:s
 			dd.MM.yyyy HH:mm:ss
 			
+			u formátu 
+			d.M.yy pokud je yy menší jak 80 tak opraví datum na 2000, jinak na 1900
+			
 			vrací
 			d.M.yyyy H:m:s
 		*/
@@ -1605,6 +1608,9 @@ JB.date = new function(){
 					x=String(x[0]).match(/\d+/g);
 					if(x!=null)
 					if(x.length==3){
+						x[2]=x[2]*1;
+						if(x[2]<100)
+							x[2] += (x[2]<80 ? 2000 : 1900);
 						s=(x[0]*1)+'.'+(x[1]*1)+'.'+(x[2]*1);
 						ok=true;
 					}
