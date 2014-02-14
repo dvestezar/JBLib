@@ -3,7 +3,7 @@ JB tools
 (c)2008
 www.dvetezar.cz
 
-v 2.0.4.7
+v 2.0.4.8
 */
 
 if(typeof JB == 'undefined'){
@@ -13,6 +13,11 @@ if(typeof JB == 'undefined'){
 String.prototype.convToUniEsc=function(rem){
 	//escapuje unicode znaky pomocí hex pro JSON
 	return JBconvToUniEsc(this.valueOf(),rem);	
+}
+String.prototype.trim=function(){
+	//provede trim
+	var a=String(this.valueOf());
+	return a.replace(/(^\s+)|(\s+$)/gi,'');
 }
 
 function JBconvToUniEsc(a,rem){
@@ -35,6 +40,7 @@ if(JB.x==undefined){
 	JB.x=new function(){
 		this.BR = function(p){
 			/* vytvoří HTML element <br> s parametry v p
+				vrací pole s elementy br
 			- p objekt viz.fn cel
 			- p.cnt = (int) spec parametr počet vložených BR, pokud není zadán tak je generován jen jeden
 			!!tato funkce nic nevrací !!
@@ -46,7 +52,9 @@ if(JB.x==undefined){
 			if(p==undefined)p=new Object;
 			if(p.cnt==undefined)p.cnt=1;
 			var x=p.cnt;//ochrana proti změně p.cnt
-			for(var a=0;a<x;a++)this.cel('br',p);
+			var els=[];
+			for(var a=0;a<x;a++)els.push(this.cel('br',p));
+			return els;
 		}
 		this.tx = function(txt,p){
 			/*vytvoří a vrátí span element
@@ -211,6 +219,16 @@ if(JB.x==undefined){
 					}catch(e){}
 				}
 			}
+		}
+		this.merge_objs=function(el,cim){
+			//sloučí objekty a vrátí nový sloučený
+			var key;
+			var o={};
+			for(key in el)
+					o[key]=el[key];
+			for(key in cim)
+					o[key]=cim[key];
+			return o;
 		}
 		this.el=function(x){
 			/*vrací DOM element podle x
@@ -1343,6 +1361,7 @@ JB.sql = new function(){
 JB.is = new function(){
 	this.und=function(x){
 		// test jestli je object undefined
+		//vrací true pokud undefined
 		var a;
 		try{
 			a=(typeof x =='undefined')
