@@ -3,7 +3,7 @@ JB tools
 (c)2008
 www.dvetezar.cz
 
-v 2.0.4.8
+v 2.0.4.9
 */
 
 if(typeof JB == 'undefined'){
@@ -216,7 +216,9 @@ if(JB.x==undefined){
 						}else{
 							el[key]=cim[key];
 						}
-					}catch(e){}
+					}catch(e){
+						console.log('Error private fn JB.x.set_prop : set property '+key+' failed : '+e);
+					}
 				}
 			}
 		}
@@ -229,6 +231,18 @@ if(JB.x==undefined){
 			for(key in cim)
 					o[key]=cim[key];
 			return o;
+		}
+		this.add_props=function(el,co){
+			//připne objekt co na objekt el a vrátí el
+			var key;
+			for(key in co){
+				try{
+					el[key]=co[key];
+				}catch(e){
+					console.log('Error JB.x.add_props : set property '+key+' failed : '+e);
+				}
+			}
+			return el;
 		}
 		this.el=function(x){
 			/*vrací DOM element podle x
@@ -1512,7 +1526,7 @@ JB.is = new function(){
 	// sw je objekt určující chování, jehoproperties jsou
 	// 		.pos	(default false)-positive, pokud true, tak integer musí být větší jak -1
 	// 		.strict	(default true), pokud true tak nesmí být před a za číslem mezery
-	//		.nz		(default false) - nonzero, pokud nastaveno na true, tak číslo nesmí nabýt hodnoty nula
+	//		.nz		(default false) - nonzero, pokud nastaveno na true, tak číslo nesmí nabít hodnoty nula
 	//		.multi	(default false) - pokud true, může text obsahovat více čísel oddělených čárkou nebo středníkem
 	
 	// default je test na jedno celé číslo jakékoliv celé hodnoty bez mezer
