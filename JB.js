@@ -3,16 +3,21 @@ JB tools
 (c)2008
 www.dvetezar.cz
 
-v 2.0.3.2
+v 2.0.4.8
 */
 
 if(typeof JB == 'undefined'){
 	var JB = new Object;
 }
 
-String.prototype.convToUniEsc=function(){
+String.prototype.convToUniEsc=function(rem){
 	//escapuje unicode znaky pomocí hex pro JSON
-	return JBconvToUniEsc(this.valueOf());	
+	return JBconvToUniEsc(this.valueOf(),rem);	
+}
+String.prototype.trim=function(){
+	//provede trim
+	var a=String(this.valueOf());
+	return a.replace(/(^\s+)|(\s+$)/gi,'');
 }
 
 function JBconvToUniEsc(a,rem){
@@ -35,6 +40,7 @@ if(JB.x==undefined){
 	JB.x=new function(){
 		this.BR = function(p){
 			/* vytvoří HTML element <br> s parametry v p
+				vrací pole s elementy br
 			- p objekt viz.fn cel
 			- p.cnt = (int) spec parametr počet vložených BR, pokud není zadán tak je generován jen jeden
 			!!tato funkce nic nevrací !!
@@ -46,7 +52,9 @@ if(JB.x==undefined){
 			if(p==undefined)p=new Object;
 			if(p.cnt==undefined)p.cnt=1;
 			var x=p.cnt;//ochrana proti změně p.cnt
-			for(var a=0;a<x;a++)this.cel('br',p);
+			var els=[];
+			for(var a=0;a<x;a++)els.push(this.cel('br',p));
+			return els;
 		}
 		this.tx = function(txt,p){
 			/*vytvoří a vrátí span element
@@ -208,9 +216,33 @@ if(JB.x==undefined){
 						}else{
 							el[key]=cim[key];
 						}
-					}catch(e){}
+					}catch(e){
+						console.log('Error private fn JB.x.set_prop : set property '+key+' failed : '+e);
+					}
 				}
 			}
+		}
+		this.merge_objs=function(el,cim){
+			//sloučí objekty a vrátí nový sloučený
+			var key;
+			var o={};
+			for(key in el)
+					o[key]=el[key];
+			for(key in cim)
+					o[key]=cim[key];
+			return o;
+		}
+		this.add_props=function(el,co){
+			//připne objekt co na objekt el a vrátí el
+			var key;
+			for(key in co){
+				try{
+					el[key]=co[key];
+				}catch(e){
+					console.log('Error JB.x.add_props : set property '+key+' failed : '+e);
+				}
+			}
+			return el;
 		}
 		this.el=function(x){
 			/*vrací DOM element podle x
@@ -572,8 +604,10 @@ if(JB.forms==undefined){
 			form_names=opr_forms_from_str(form_names);	
 			return get_vals_from_arr_form(form_names,true,prefix);
 		}
-		this.val=function(s_el,ob){ //ob = objekt {val:'',form:''}
-			/*
+		this.val=function(s_el,ob){ 
+			/*	s_el = element formu
+				ob = objekt {val:'',form:''}
+			
 			 Nepoužívá jQuery
 			 nastaví nebo přečte hodnotu elementu formuláře
 			 funkční pro select, multiselect, checkboxy, radiobutony, text, textarea, file, password, hidden, button, reset, submit
@@ -677,8 +711,10 @@ if(JB.forms==undefined){
 					//pokud dropdown box nebo není multiple povolen
 					if(g){
 						x=[];
-						z=el.options[el.selectedIndex].value;
-						x.push((JB.is.number(z)?(z*1):z));
+						if(el.options.length>0){
+							z=el.options[el.selectedIndex].value;
+							x.push((JB.is.number(z)?(z*1):z));
+						}
 						return x;
 					}else{
 						x=indexByVal(el.options,ob.val[0]);
@@ -1306,6 +1342,7 @@ JB.sql = new function(){
 		return a;
 	}
 	this.to_date = function(dt){
+		//převede datum do řetězce sql
 		dt=String(dt);
 		if(!JB.is.date(dt)){
 			if(JB.is.datetime(dt)){
@@ -1316,6 +1353,7 @@ JB.sql = new function(){
 		return x[2]+'-'+dve(x[1])+'-'+dve(x[0]);
 	}
 	this.to_time = function(dt){
+		//převede datum do řetězce sql
 		dt=String(dt);
 		if(!JB.is.time(dt)){
 			if(JB.is.datetime(dt)){
@@ -1326,12 +1364,18 @@ JB.sql = new function(){
 		return dve(x[0])+':'+dve(x[1])+':'+dve(x[2]);	
 	}
 	this.to_datetime = function(dt){
-	
+		//převede datum do řetězce sql
+		return JB.sql.to_date(dt)+' '+JB.sql.to_time(dt);
+	}
+	this.printable = function(x,y){
+		//info viz fn v JB.date
+		return JB.date.printable(x,y);
 	}
 }
 JB.is = new function(){
 	this.und=function(x){
 		// test jestli je object undefined
+		//vrací true pokud undefined
 		var a;
 		try{
 			a=(typeof x =='undefined')
@@ -1476,12 +1520,40 @@ JB.is = new function(){
 			return /^(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})$/.test(x);		
 		}
 	}
-	this.integer=function(x){
+	this.integer=function(x,sw){
 	// test na integer, celé číslo
-	// na začátku čísla nebo mezi mínusem a číslem nezmí být nuly
+	// na začátku čísla nebo mezi mínusem a číslem nesmí být nuly
+	// sw je objekt určující chování, jehoproperties jsou
+	// 		.pos	(default false)-positive, pokud true, tak integer musí být větší jak -1
+	// 		.strict	(default true), pokud true tak nesmí být před a za číslem mezery
+	//		.nz		(default false) - nonzero, pokud nastaveno na true, tak číslo nesmí nabít hodnoty nula
+	//		.multi	(default false) - pokud true, může text obsahovat více čísel oddělených čárkou nebo středníkem
+	
+	// default je test na jedno celé číslo jakékoliv celé hodnoty bez mezer
+		var s1,s2;
+		if(sw==undefined)
+			sw={};
+		if((sw.pos!=true)&&(sw.pos!=false))
+			sw.pos=false;
+		if((sw.strict!=true)&&(sw.strict!=false))
+			sw.strict=true;
+		if((sw.nz!=true)&&(sw.nz!=false))
+			sw.nz=false;
+		if((sw.multi!=true)&&(sw.multi!=false))
+			sw.multi=false;
 		x=String(x);
 		if(x.length<1){return false};
-	var z=/^\-?[1-9]\d*$/;
+		var s='('+(sw.nz?'':'(0)|')+'('+(sw.pos?'':'-?')+'([1-9][0-9]*)))';
+		if(!sw.strict)
+			s='\\'+'s*'+s+'\\'+'s*';
+		if(sw.multi){
+			s1=s+'(,'+s+')*';
+			s2=s+'(;'+s+')*';
+			s='('+s1+'|'+s2+')';
+		}
+		s='/^'+s+'$/';
+		z=eval(s);
+		
 		return z.test(x);
 	}
 	this.telnum=function(x){
@@ -1520,61 +1592,100 @@ JB.is = new function(){
 }
 
 JB.date = new function(){
-	this.correct=function(co){
-	// vrací původní nebo opravené datum
-	// převede formát yyyy-mm-dd (SQL)
-	//               dd-mm-yyyy
-	//               d.m.y   /  d.m.yy
-	// na d.m.yyyy
-	// pokud řetězec obsahuje hh:mm:ss tak tento kousek ponechá beze změn
-	var x,z;
-	var tm='';
-		co=String(co);
-		z=/ (\d{1,2}:){2}\d{1,2}$/;
-		if(z.test(co)){
-			//pokud je na konci čas, tak extrahuj
-			tm=co.match(z)[0];
-			co=co.replace(z,'');
-			//tm obsahuje time hodnotu
-			//co je upraveno na datum
+	this.printable = function(dt_sql,p){
+		/* vstup řetězec, vrací řetězec
+		převede sql datum do tisknutelné podoby
+			"p" - objekt přídavných parametrů
+				.dt(default true) pokud true vrátí datum
+				.tm(default true) pokud true vrátí čas
+				
+		akceptuje  formáty
+			yyyy-M-d H:m:s
+			yyyy-MM-dd HH:mm:ss
+			d.M.yyyy H:m:s
+			dd.MM.yyyy HH:mm:ss
+			
+			u formátu 
+			d.M.yy pokud je yy menší jak 80 tak opraví datum na 2000, jinak na 1900
+			
+			vrací
+			d.M.yyyy H:m:s
+		*/
+		if(p==undefined)
+			p={};
+		if((p.dt!=true)&&(p.dt!=false))
+			p.dt=true;
+		if((p.tm!=true)&&(p.tm!=false))
+			p.tm=true;
+		var s='';
+		var x;
+		var ok=false;
+		var d=String(dt_sql);
+		if((p.df==false)&&(p.tm==false))
+			return '';
+		if(p.dt){
+			x=d.match(/^\d{4}(-\d{1,2}){2}/);
+			if(x!=null)
+			if(x.length>0){
+				x=String(x[0]).match(/\d+/g);
+				if(x!=null)
+				if(x.length==3){
+					s=(x[2]*1)+'.'+(x[1]*1)+'.'+(x[0]*1);
+					ok=true;
+				}
+			}
+			if(!ok){
+				x=d.match(/^\d{1,2}\.\d{1,2}\.\d{2,4}/);
+				if(x!=null)
+				if(x.length>0){
+					x=String(x[0]).match(/\d+/g);
+					if(x!=null)
+					if(x.length==3){
+						x[2]=x[2]*1;
+						if(x[2]<100)
+							x[2] += (x[2]<80 ? 2000 : 1900);
+						s=(x[0]*1)+'.'+(x[1]*1)+'.'+(x[2]*1);
+						ok=true;
+					}
+				}
+			}
 		}
-		co.replace(/ +/gi,'');
-		z=/^\d{4}-\d{1,2}-\d{1,2}$/;
-		if(z.test(co)){
-			//číslo je yyyy-mm-dd
-			x=co.split(/-/g);
-			x[1]=Math.ceil(x[1]);
-			x[2]=Math.ceil(x[2]);
-			return x[2]+'.'+x[1]+'.'+x[0]+tm;
+		if(p.tm){
+			x=d.match(/\d{1,2}(:\d{1,2}){2}$/);
+			if(x!=null)
+			if(x.length>0){
+				x=String(x[0]).match(/\d+/g);
+				if(x!=null)
+				if(x.length==3){
+					if(s!='')
+						s+=' ';
+					s+=(x[0]*1)+':'+(x[1]*1)+':'+(x[2]*1);
+				}
+			}
 		}
-		z=/^\d{1,2}-\d{1,2}-\d{4}$/;
-		if(z.test(co)){
-			//číslo je dd-mm-yyyy
-			x=co.split(/-/g);
-			x[1]=Math.ceil(x[1]);
-			x[0]=Math.ceil(x[0]);
-			return x[0]+'.'+x[1]+'.'+x[2]+tm;
+		return s;
+	}
+	this.correct=function(co,jak){
+		/*zpětná kompatibilita
+			viz fn printable
+		 jak default 'dt' neusí být zadáno
+				'dt' default vrací datetime
+				'd' vrací jen date
+				't' vrací jen time
+		*/
+		var vtm=false;
+		var vdt=false;
+		if(jak==undefined)
+			jak='dt';
+		if(jak=='d')
+			vdt=true;
+		if(jak=='t')
+			vtm=true;
+		if(jak=='dt'){
+			vdt=true;
+			vtm=true;
 		}
-		z=/^\d{1,2}\.\d{1,2}\.\d{1,4}$/;
-		if(z.test(co)){
-			//číslo je d.m.y
-			x=co.split(/\./g);
-			x[2]=Math.ceil(x[2]);
-			x[1]=Math.ceil(x[1]);
-			x[0]=Math.ceil(x[0]);
-			if (x[2]<100) {x[2] += (x[2]<80 ? 2000 : 1900)};
-			return x[0]+'.'+x[1]+'.'+x[2]+tm;
-		}
-		z=/^\d{1,2}\.\d{1,2}\.?$/;//zkrácené datum
-		if(z.test(co)){
-			x=co.split(/\./g);
-			x[1]=Math.ceil(x[1]);
-			x[0]=Math.ceil(x[0]);
-			var y= new Date();
-			y= y.getFullYear();
-			return x[0]+'.'+x[1]+'.'+ y+tm;
-		}
-		return co;
+		return JB.date.printable(co,{dt:vdt,tm:vtm});
 	}
 	this.numAdd = function(dttm,co,kolik){
 	// přidá zvolenou hodnotu k datumu, datum musí být ve tvaru čísla
