@@ -3,7 +3,7 @@ JB tools
 (c)2008
 www.dvetezar.cz
 
-v 2.0.4.9
+v 2.0.4.10
 */
 
 if(typeof JB == 'undefined'){
@@ -154,6 +154,7 @@ if(JB.x==undefined){
 			if(!JB.is.und(p)){
 				if(!JB.is.und(p.id))
 					el.setAttribute('id',p.id);
+					//el.id=p.id;
 				if(!JB.is.und(p.csN))
 					el.className=p.csN;
 				if(!JB.is.und(p.tx))
@@ -1983,6 +1984,14 @@ if(JB.cookies==undefined){
 }
 
 JB.help = new function(){
+	this.errToConsole=function(text,e){
+		var o='Name:'+e.name+'\n';
+		o+='Line number : '+e.lineNumber+'\n';
+		o+='Message : '+e.message+'\n';
+		o+='Source : '+e.fileName+'\n';
+		
+		console.log(text+'\n'+o);
+	}
 	this.ThMCE = new function(){
 		//helpfunkce pro ThinyMce
 		this.val = function(id,x){
