@@ -3,7 +3,7 @@ JB tools
 (c)2008
 www.dvetezar.cz
 
-v 2.0.4.19
+v 2.0.4.20
 */
 var lns_month = [31,28,31,30,31,30,31,31,30,31,30,31];
 
@@ -23,6 +23,25 @@ String.prototype.trim=function(){
 
 //pokud neexistuje bind tak vytvoř
 //viz https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind
+/*
+bind function to object
+
+this.x = 9; 
+var module = {
+  x: 81,
+  getX: function() { return this.x; }
+};
+
+module.getX(); // 81
+
+var getX = module.getX;
+getX(); // 9, because in this case, "this" refers to the global object
+
+// Create a new function with 'this' bound to module
+var boundGetX = getX.bind(module);
+boundGetX(); // 81	
+	
+*/
 if (!Function.prototype.bind) {
 	Function.prototype.bind = function (oThis) {
 		if (typeof this !== "function") {
@@ -144,7 +163,7 @@ if(JB.x==undefined){
 				.pop	=(string)	zajistí nastavení atributů ALT a TITLE elementu
 				.doc	=(objekt)	pokud je zadán musí obsahovat object document z daného okna pro který má být vytvořen nový element
 									pokud zadán není, je použit aktuální document
-				.ob		=(objekt)	pokud je zadán, tak je použit tento object pro vytvoření elementu, třeba document object z jiného okna
+				.ob		=(objekt)	default document - pokud je zadán, tak je použit tento object pro vytvoření elementu, třeba document object z jiného okna
 				.app	=(boolean)	pokud je zadáno 'true' tak je vytvořený element připojen k objektu ob (buď document nebo objekt v 'ob' pomocí appendchild
 									jinak je vrácen jen nový objekt který není nikde přiřazen, default je true
 				.ad		=(objekt)	properties navíc, které se pokusí registrovat např.
@@ -1462,7 +1481,7 @@ JB.is = new function(){
 	//	x_num=CorrectIfShortDatum(x_num);
 		if(x_num.length<1){return false};
 	//	z=/^((\d?\d)\.){2}(\d){4}$/;
-		z=/^([1-9]|[12][0-9]|[3][01])\.([1-9]|[1][0-2])\.(((19)|(20))\d{2})$/;
+		z=/^([0]?[1-9]|[12][0-9]|[3][01])\.([0]?[1-9]|[1][0-2])\.(((19)|(20))\d{2})$/;
 		if(!z.test(x_num)){return false};
 
 		x=x_num.split(".");
@@ -1651,13 +1670,14 @@ JB.is = new function(){
 
 JB.date = new function(){
 	this.printable = function(dt_sql,p){
-		/* vstup řetězec, vrací řetězec
+		/* vstup řetězec nebo objekt date, vrací řetězec
 		převede sql datum do tisknutelné podoby
 			"p" - objekt přídavných parametrů
 				.dt(default true) pokud true vrátí datum
 				.tm(default true) pokud true vrátí čas
 				
 		akceptuje  formáty
+			objekt Date
 			yyyy-M-d H:m:s
 			yyyy-MM-dd HH:mm:ss
 			d.M.yyyy H:m:s
@@ -1669,6 +1689,20 @@ JB.date = new function(){
 			vrací
 			d.M.yyyy H:m:s
 		*/
+		if(dt_sql instanceof Date){
+			return dt_sql.getDate()
+				+'.'
+				+(dt_sql.getMonth()+1)
+				+'.'
+				+dt_sql.getFullYear()
+				+' '
+				+dt_sql.getHours()
+				+':'
+				+dt_sql.getMinutes()
+				+':'
+				+dt_sql.getSeconds();
+		}
+		
 		if(p==undefined)
 			p={};
 		if((p.dt!=true)&&(p.dt!=false))
@@ -2081,3 +2115,46 @@ JB.help = new function(){
 		}
 	}
 }
+JB.CZK = function(val,des){
+	/*
+		zaokrouhlí cenu na CZK koruny na počet desetinných míst
+	*/
+	if(JB.is.und(des))
+		des=0;
+	var a;
+	if(!JB.is.number(val))
+		return val;
+	val=val*1;
+
+	var b=Math.pow(10,des);//získej čím se má násobit
+		c=Math.ceil(val*b);//zaokrouhli
+		val=c/b;// vstup je saokrouhlen na požadovanou hodnotu
+		
+
+	val=String(val);
+	var x=String(val).split(/\./);
+	var xx=String(x[0]);
+	var o='';
+	var cn=0;
+	var old;
+	for(a=(xx.length-1);a>=0;a--){
+		o=xx.charAt(a)+o;
+		cn++;
+		old=o;
+		if(cn%3==0)
+			o='.'+o;
+	}
+	if(cn%3==0)
+		o=old;
+	if(x.length==2){
+		o+=','+x[1];
+		x=String(x[1]).length;
+		if(x<des){
+			o+=String('00000000000').substring(0,des-x);
+		}
+	}else{
+		o+=',-';
+	}
+	return o+' CZK';
+}
+
