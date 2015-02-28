@@ -3,7 +3,7 @@ JB tools
 (c)2008
 www.dvetezar.cz
 
-v 2.0.4.20
+v 2.0.5.0
 */
 var lns_month = [31,28,31,30,31,30,31,31,30,31,30,31];
 
@@ -1570,6 +1570,26 @@ JB.is = new function(){
 		x += kont;
 		return (Math.floor(x/10)==(x/10));
 	}	
+	this.ico=function(ic){
+		ic = String(ic).trim();
+		
+		if (/^\d{8}$/.test(ic))
+			return false;
+
+		// kontrolní součet
+		a = 0;
+		for (i = 0; i < 7; i++)
+			a += ic[i] * (8 - i);
+
+		a = a % 11;
+
+		if (a === 0) c = 1;
+		else if (a === 10) c = 1;
+		else if (a === 1) c = 0;
+		else c = 11 - a;
+
+		return ic[7] === c;
+	}	
 	this.number=function(x){
 	// x_num= číslo, nebo string
 	// vrací true když je x_num číslo (i záporné i s des.tečkou), jinak vrací false
@@ -2158,3 +2178,45 @@ JB.CZK = function(val,des){
 	return o+' CZK';
 }
 
+if(typeof jQuery!='undefined'){
+	var Qval= function(el,v){
+	//rozšířená verze funkce jQuery.val o nastavení a čtení selec2 a wisiwig editoru
+		el=Q(el);
+		var r=el.val(v);
+		if(el.length>0){
+			//console.log('Qval nalezeno : '+el.length);
+			for(var a=0;a<el.length;a++){
+				var tag = el[a].tagName.toLowerCase();
+				if(tag=='select'){
+					//console.log('Qval nastavuji select');
+					var s2=Q(el[a]).data('select2');
+					if (typeof s2!='undefined'){
+						//console.log('Qval nalezen select2');
+						if(typeof v!='undefined'){
+							jQuery(el[a]).select2('val',v);
+						}
+						//select2 automaticky nastaví hodnotu v nahrazeném objektu
+						//takže hodnota je přečtena
+					}				
+				}else if(tag=='textarea'){
+					//console.log('Qval nastavuji textarea');
+					o=Q('#'+el[a].id+'_ifr');
+					if(o.length==1){
+						o=o.contents().find("body");
+						if(o.length>0){
+							//console.log('Qval nalezen wisiwig');						
+							if(typeof v!='undefined'){
+								o.html(v);
+							}else{
+								//hodnota musí být přečtena
+								//wisiwig většinou nenastavuje nahrazený objekt s každou změnou
+								r=o.html();
+							}
+						}
+					}
+				}
+			}
+		}
+		return r;
+	};
+}
